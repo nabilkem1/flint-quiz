@@ -25,6 +25,9 @@ param cosmosAccountName string
 @description('Agent UAMI principal ID (`uami.outputs.agentPrincipalId`). When empty, the role assignment is skipped — useful for scratch deploys that do not need data-plane access yet.')
 param uamiAgentPrincipalId string = ''
 
+@description('Indexer UAMI principal ID (`uami.outputs.indexerPrincipalId`). Needs Cosmos write access on the `topics` container so the seed-loader job can chain `seed_topics` after `seed_index`. Same `if (!empty(...))` guard pattern as the agent.')
+param uamiIndexerPrincipalId string = ''
+
 @description('Database name. Stable across environments.')
 param databaseName string = 'flint-quiz'
 
@@ -231,6 +234,20 @@ resource agentDataContributor 'Microsoft.DocumentDB/databaseAccounts/sqlRoleAssi
   properties: {
     roleDefinitionId: '${cosmos.id}/sqlRoleDefinitions/00000000-0000-0000-0000-000000000002'
     principalId: uamiAgentPrincipalId
+    scope: cosmos.id
+  }
+}
+
+// Indexer UAMI: account-scope Data Contributor so the seed-loader CAJ can
+// write to the `topics` container after `seed_index` upserts the question
+// rows. Original design wanted this scoped to the `topics` container only
+// (separate custom role) — same tighten-later note as agent above.
+resource indexerDataContributor 'Microsoft.DocumentDB/databaseAccounts/sqlRoleAssignments@2024-08-15' = if (!empty(uamiIndexerPrincipalId)) {
+  parent: cosmos
+  name: guid(cosmos.id, uamiIndexerPrincipalId, 'cosmos-data-contributor')
+  properties: {
+    roleDefinitionId: '${cosmos.id}/sqlRoleDefinitions/00000000-0000-0000-0000-000000000002'
+    principalId: uamiIndexerPrincipalId
     scope: cosmos.id
   }
 }

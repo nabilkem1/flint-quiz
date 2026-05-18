@@ -235,6 +235,9 @@ module cosmosDatabase 'modules/cosmos-database.bicep' = {
     // manual `az cosmosdb sql role assignment create`. See module for the
     // tighten-to-custom-role follow-up note.
     uamiAgentPrincipalId: uami.outputs.agentPrincipalId
+    // Grant the indexer UAMI the same — the seed-loader CAJ chains
+    // `seed_index` (Search) + `seed_topics` (Cosmos) on a single firing.
+    uamiIndexerPrincipalId: uami.outputs.indexerPrincipalId
   }
 }
 
@@ -512,6 +515,7 @@ module seedLoaderJob 'modules/seed-loader-job.bicep' = {
     uamiIndexerClientId: uami.outputs.indexerClientId
     searchEndpoint: search.outputs.searchEndpoint
     blobEndpoint: storage.outputs.blobEndpoint
+    cosmosEndpoint: cosmos.outputs.cosmosEndpoint
     appInsightsConnectionString: observability.outputs.appInsightsConnectionString
     imageRef: seedLoaderImageRef
   }

@@ -21,6 +21,8 @@
     "tagCostCenter": { "value": "${TAG_COST_CENTER=CC-FLINT-0001}" },
     "deployerPrincipalId": { "value": "${AZURE_PRINCIPAL_ID}" },
     "deployerPrincipalType": { "value": "${AZURE_PRINCIPAL_TYPE=User}" },
-    "sweeperImageRef": { "value": "${SERVICE_SWEEPER_IMAGE_NAME=mcr.microsoft.com/azuredocs/containerapps-helloworld:latest}" }
+    "sweeperImageRef": { "value": "${SERVICE_SWEEPER_IMAGE_NAME=mcr.microsoft.com/azuredocs/containerapps-helloworld:latest}" },
+    "quizAgentImageRef": { "value": "${SERVICE_QUIZ_AGENT_IMAGE_NAME=mcr.microsoft.com/azuredocs/containerapps-helloworld:latest}" },
+    "seedLoaderImageRef": { "value": "${SERVICE_SEED_LOADER_IMAGE_NAME=mcr.microsoft.com/azuredocs/containerapps-helloworld:latest}" }
   }
 }

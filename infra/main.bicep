@@ -118,6 +118,12 @@ param deploySweeper bool = true
 @description('Image reference for the sweeper CAJ. On a fresh deploy this is the public hello-world bootstrap (the resource needs SOME image at create time, before `azd deploy sweeper` builds the real one). Subsequent provisions read `SERVICE_SWEEPER_IMAGE_NAME` from the azd env — which azd populates after each successful `azd deploy sweeper` — so the bicep replace step never reverts a real image back to the bootstrap. The bootstrap-image race on a FIRST provision is unchanged: the first 1-3 cron firings will Fail until the real image lands; subsequent provisions are clean.')
 param sweeperImageRef string = 'mcr.microsoft.com/azuredocs/containerapps-helloworld:latest'
 
+@description('Image reference for the quiz-agent Container App. Same pattern as `sweeperImageRef`: bootstrap default for first deploy, then read back from `SERVICE_QUIZ_AGENT_IMAGE_NAME` via main.parameters.json on subsequent provisions so the container revision is not bounced back to hello-world.')
+param quizAgentImageRef string = 'mcr.microsoft.com/azuredocs/containerapps-helloworld:latest'
+
+@description('Image reference for the seed-loader CAJ. Same pattern as `sweeperImageRef`: bootstrap default for first deploy, then read back from `SERVICE_SEED_LOADER_IMAGE_NAME` via main.parameters.json on subsequent provisions.')
+param seedLoaderImageRef string = 'mcr.microsoft.com/azuredocs/containerapps-helloworld:latest'
+
 // ---- Derived values --------------------------------------------------------
 
 var rgName = '${prefix}-${environmentName}-rg'
@@ -485,6 +491,7 @@ module quizAgentApp 'modules/quiz-agent-app.bicep' = {
     appConfigEndpoint: appConfig.outputs.appConfigEndpoint
     cosmosEndpoint: cosmos.outputs.cosmosEndpoint
     searchEndpoint: search.outputs.searchEndpoint
+    imageRef: quizAgentImageRef
   }
 }
 
@@ -506,6 +513,7 @@ module seedLoaderJob 'modules/seed-loader-job.bicep' = {
     searchEndpoint: search.outputs.searchEndpoint
     blobEndpoint: storage.outputs.blobEndpoint
     appInsightsConnectionString: observability.outputs.appInsightsConnectionString
+    imageRef: seedLoaderImageRef
   }
 }
 

@@ -112,8 +112,8 @@ param deployerPrincipalType string = 'User'
 @description('Whether to deploy the AI Search `questions` index control-plane via deploymentScripts. Set to `false` in subscriptions where the deploymentScripts identity surface is restricted; the index is then created by the seed loader (`src/seed/seed_index.py`) at first run. Phase-1 default is `false`.')
 param deployAiSearchIndex bool = false
 
-@description('Whether to deploy the background sweeper as a scheduled Container Apps Job. No `Microsoft.Web/serverFarms` quota required — the legacy Functions-on-VM design needed it; this one shares the existing Container Apps managed environment. Defaults to `false` so the gate matches historical behavior; flip to `true` to provision.')
-param deploySweeper bool = false
+@description('Whether to deploy the background sweeper as a scheduled Container Apps Job. No `Microsoft.Web/serverFarms` quota required — the legacy Functions-on-VM design needed it; this one shares the existing Container Apps managed environment.')
+param deploySweeper bool = true
 
 // ---- Derived values --------------------------------------------------------
 
@@ -221,6 +221,11 @@ module cosmosDatabase 'modules/cosmos-database.bicep' = {
   scope: resourceGroup(rgName)
   params: {
     cosmosAccountName: cosmos.outputs.cosmosAccountName
+    // Grant the agent UAMI account-scope Data Contributor at provision time
+    // so the quiz-agent container + sweeper CAJ can read/write without a
+    // manual `az cosmosdb sql role assignment create`. See module for the
+    // tighten-to-custom-role follow-up note.
+    uamiAgentPrincipalId: uami.outputs.agentPrincipalId
   }
 }
 

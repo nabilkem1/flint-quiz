@@ -26,6 +26,17 @@ param agentPrincipalId string
 param indexerPrincipalId string
 param deployPrincipalId string
 
+@description('Human / CI deployer AAD principal ID (the entity running `azd up`). Needs Search Service Contributor so `post-provision.sh` can PUT the questions index via REST without manual portal action. Pass `""` to skip the assignment (CI envs that never run interactive hooks).')
+param deployerHumanPrincipalId string = ''
+
+@description('Type of `deployerHumanPrincipalId` — User for interactive azd, ServicePrincipal for CI.')
+@allowed([
+  'User'
+  'ServicePrincipal'
+  'Group'
+])
+param deployerHumanPrincipalType string = 'User'
+
 @description('Resource IDs to scope assignments to')
 param keyVaultId string
 param keyVaultName string
@@ -257,6 +268,20 @@ resource deploySearchServiceContributor 'Microsoft.Authorization/roleAssignments
   properties: {
     principalId: deployPrincipalId
     principalType: 'ServicePrincipal'
+    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', roles.searchServiceContributor)
+  }
+}
+
+// Human deployer (interactive azd) — same role, scoped to the search
+// service, so `post-provision.sh` can PUT the `questions` index via the
+// Search REST API. Skipped when `deployerHumanPrincipalId == ""` (CI envs
+// that never run the interactive hook).
+resource deployerHumanSearchContributor 'Microsoft.Authorization/roleAssignments@2022-04-01' = if (!empty(deployerHumanPrincipalId)) {
+  scope: searchService
+  name: guid(searchServiceId, deployerHumanPrincipalId, roles.searchServiceContributor, 'human')
+  properties: {
+    principalId: deployerHumanPrincipalId
+    principalType: deployerHumanPrincipalType
     roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', roles.searchServiceContributor)
   }
 }

@@ -115,14 +115,25 @@ param deployAiSearchIndex bool = false
 @description('Whether to deploy the background sweeper as a scheduled Container Apps Job. No `Microsoft.Web/serverFarms` quota required — the legacy Functions-on-VM design needed it; this one shares the existing Container Apps managed environment.')
 param deploySweeper bool = true
 
-@description('Image reference for the sweeper CAJ. On a fresh deploy this is the public hello-world bootstrap (the resource needs SOME image at create time, before `azd deploy sweeper` builds the real one). Subsequent provisions read `SERVICE_SWEEPER_IMAGE_NAME` from the azd env — which azd populates after each successful `azd deploy sweeper` — so the bicep replace step never reverts a real image back to the bootstrap. The bootstrap-image race on a FIRST provision is unchanged: the first 1-3 cron firings will Fail until the real image lands; subsequent provisions are clean.')
-param sweeperImageRef string = 'mcr.microsoft.com/azuredocs/containerapps-helloworld:latest'
+@description('Image reference for the sweeper CAJ. On a fresh deploy this is the public hello-world bootstrap (the resource needs SOME image at create time, before `azd deploy sweeper` builds the real one). Subsequent provisions read `SERVICE_SWEEPER_IMAGE_NAME` from the azd env — which azd populates after each successful `azd deploy sweeper` — so the bicep replace step never reverts a real image back to the bootstrap. Accepts empty string so `azd down + azd up` (where the env var is stale-but-set) still falls back to bootstrap; see pre-deploy.sh stale-image guard. The bootstrap-image race on a FIRST provision is unchanged: the first 1-3 cron firings will Fail until the real image lands; subsequent provisions are clean.')
+param sweeperImageRef string = ''
 
-@description('Image reference for the quiz-agent Container App. Same pattern as `sweeperImageRef`: bootstrap default for first deploy, then read back from `SERVICE_QUIZ_AGENT_IMAGE_NAME` via main.parameters.json on subsequent provisions so the container revision is not bounced back to hello-world.')
-param quizAgentImageRef string = 'mcr.microsoft.com/azuredocs/containerapps-helloworld:latest'
+@description('Image reference for the quiz-agent Container App. Same pattern as `sweeperImageRef`: bootstrap when empty, real ACR tag otherwise. Read from `SERVICE_QUIZ_AGENT_IMAGE_NAME` via main.parameters.json on subsequent provisions.')
+param quizAgentImageRef string = ''
 
-@description('Image reference for the seed-loader CAJ. Same pattern as `sweeperImageRef`: bootstrap default for first deploy, then read back from `SERVICE_SEED_LOADER_IMAGE_NAME` via main.parameters.json on subsequent provisions.')
-param seedLoaderImageRef string = 'mcr.microsoft.com/azuredocs/containerapps-helloworld:latest'
+@description('Image reference for the seed-loader CAJ. Same pattern as `sweeperImageRef`: bootstrap when empty, real ACR tag otherwise. Read from `SERVICE_SEED_LOADER_IMAGE_NAME` via main.parameters.json on subsequent provisions.')
+param seedLoaderImageRef string = ''
+
+// Centralized bootstrap image — keeps every consumer string in sync if we
+// ever want to change the hello-world default (e.g., a tiny custom image
+// that prints a clearer message about "real image not yet pushed").
+var bootstrapImageRef = 'mcr.microsoft.com/azuredocs/containerapps-helloworld:latest'
+
+// Resolved image refs — empty (or stale-but-set-to-empty by pre-deploy.sh)
+// becomes bootstrap. Bicep evaluates `empty()` to true for both `null` and `''`.
+var resolvedSweeperImageRef = empty(sweeperImageRef) ? bootstrapImageRef : sweeperImageRef
+var resolvedQuizAgentImageRef = empty(quizAgentImageRef) ? bootstrapImageRef : quizAgentImageRef
+var resolvedSeedLoaderImageRef = empty(seedLoaderImageRef) ? bootstrapImageRef : seedLoaderImageRef
 
 // ---- Derived values --------------------------------------------------------
 
@@ -402,15 +413,23 @@ module rbac 'modules/rbac.bicep' = {
     foundryAccountName: foundry.outputs.foundryAccountName
     containerRegistryId: containerRegistry.outputs.registryId
     containerRegistryName: containerRegistry.outputs.registryName
+    deployerHumanPrincipalId: deployerPrincipalId
+    deployerHumanPrincipalType: deployerPrincipalType
   }
 }
 
 // ---- AI Search index control plane (002 TASK-020..TASK-023) --------------
 //
-// Gated on `deployAiSearchIndex`. In Phase-1 / personal subscriptions the
-// `deploymentScripts` UAMI-identity surface is restricted (the script
-// container does not get IDENTITY_ENDPOINT populated), so we default this
-// off and create the index from `src/seed/seed_index.py` at first run.
+// Two paths exist:
+//   - `questionsIndex` (deploymentScripts) — gated on `deployAiSearchIndex`,
+//     fails on personal-MSA subscriptions (identity-endpoint URI parse error).
+//   - Post-provision REST PUT via `infra/hooks/post-provision.sh` — works
+//     on every subscription. The deployer's CLI principal needs
+//     `Search Service Contributor` on the search service (granted in
+//     `infra/modules/rbac.bicep`).
+//
+// A direct `Microsoft.Search/searchServices/indexes` ARM resource was tried
+// and returns opaque `BadRequest` on this schema; deferred as follow-up.
 
 module questionsIndex 'scripts/create-questions-index.bicep' = if (deployAiSearchIndex) {
   name: 'questions-index-${environmentName}'
@@ -494,7 +513,7 @@ module quizAgentApp 'modules/quiz-agent-app.bicep' = {
     appConfigEndpoint: appConfig.outputs.appConfigEndpoint
     cosmosEndpoint: cosmos.outputs.cosmosEndpoint
     searchEndpoint: search.outputs.searchEndpoint
-    imageRef: quizAgentImageRef
+    imageRef: resolvedQuizAgentImageRef
   }
 }
 
@@ -517,7 +536,7 @@ module seedLoaderJob 'modules/seed-loader-job.bicep' = {
     blobEndpoint: storage.outputs.blobEndpoint
     cosmosEndpoint: cosmos.outputs.cosmosEndpoint
     appInsightsConnectionString: observability.outputs.appInsightsConnectionString
-    imageRef: seedLoaderImageRef
+    imageRef: resolvedSeedLoaderImageRef
   }
 }
 
@@ -553,7 +572,7 @@ module sweeperJob 'modules/sweeper-job.bicep' = if (deploySweeper) {
     cosmosDatabaseName: cosmosDatabase.outputs.databaseName
     cosmosSessionsContainerName: cosmosDatabase.outputs.sessionsContainerName
     appInsightsConnectionString: observability.outputs.appInsightsConnectionString
-    imageRef: sweeperImageRef
+    imageRef: resolvedSweeperImageRef
   }
 }
 

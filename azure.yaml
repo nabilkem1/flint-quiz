@@ -1,0 +1,74 @@
+name: flint-quiz
+metadata:
+  template: flint-quiz@1.0.0
+
+infra:
+  provider: bicep
+  path: infra
+  module: main
+
+# Pre-/post-provision + post-deploy hooks (010-deployment TASK-202 / 203 / 205).
+#
+# Ordering: pre-provision validates env + parameter files before any Bicep
+# runs; post-provision asserts least privilege + resource health; post-deploy
+# runs the smoke matrix (TEST-003/004/005/010). Each hook exits non-zero on
+# failure so `azd up` surfaces the incident — no silent passes.
+hooks:
+  preprovision:
+    shell: sh
+    run: infra/hooks/pre-deploy.sh
+    continueOnError: false
+    interactive: false
+
+  postprovision:
+    shell: sh
+    run: infra/hooks/post-provision.sh
+    continueOnError: false
+    interactive: false
+
+  postdeploy:
+    shell: sh
+    run: infra/hooks/post-deploy-smoke.sh
+    continueOnError: false
+    interactive: false
+
+services:
+  quiz-agent:
+    # Foundry Hosted Agent dispatcher daemon.
+    #
+    # The container registers the Foundry agent (idempotent get-or-create)
+    # and runs the MAF tool-call loop. Tools execute inside this process
+    # under `uami-agent-*`; durable state lives in Cosmos.
+    #
+    # `project: .` so the build context is the repo root; the Dockerfile
+    # itself lives at `./src/agent/Dockerfile`. `remoteBuild: true` runs
+    # the build in Azure (ACR Tasks) — no local Docker daemon needed.
+    project: .
+    language: python
+    host: containerapp
+    docker:
+      path: ./src/agent/Dockerfile
+      remoteBuild: true
+
+  seed-loader:
+    # One-shot seed + reindex Container Apps Job. Runs as `uami-indexer-*`
+    # (Search Index Data Contributor + Storage Blob Data Reader). Aborts
+    # if `Search Service Contributor` is on its identity.
+    project: .
+    language: python
+    host: containerapp
+    docker:
+      path: ./src/seed/Dockerfile
+      remoteBuild: true
+
+  sweeper:
+    # Scheduled Container Apps Job — runs `python -m src.sweeper` every
+    # minute. Reuses `uami-agent-*` (Cosmos Data Contributor on the
+    # `sessions` container only). No `Microsoft.Web/serverFarms` quota
+    # required, unlike the legacy Functions-on-VM design.
+    project: .
+    language: python
+    host: containerapp
+    docker:
+      path: ./src/sweeper/Dockerfile
+      remoteBuild: true

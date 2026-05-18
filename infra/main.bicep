@@ -115,6 +115,9 @@ param deployAiSearchIndex bool = false
 @description('Whether to deploy the background sweeper as a scheduled Container Apps Job. No `Microsoft.Web/serverFarms` quota required — the legacy Functions-on-VM design needed it; this one shares the existing Container Apps managed environment.')
 param deploySweeper bool = true
 
+@description('Image reference for the sweeper CAJ. On a fresh deploy this is the public hello-world bootstrap (the resource needs SOME image at create time, before `azd deploy sweeper` builds the real one). Subsequent provisions read `SERVICE_SWEEPER_IMAGE_NAME` from the azd env — which azd populates after each successful `azd deploy sweeper` — so the bicep replace step never reverts a real image back to the bootstrap. The bootstrap-image race on a FIRST provision is unchanged: the first 1-3 cron firings will Fail until the real image lands; subsequent provisions are clean.')
+param sweeperImageRef string = 'mcr.microsoft.com/azuredocs/containerapps-helloworld:latest'
+
 // ---- Derived values --------------------------------------------------------
 
 var rgName = '${prefix}-${environmentName}-rg'
@@ -538,6 +541,7 @@ module sweeperJob 'modules/sweeper-job.bicep' = if (deploySweeper) {
     cosmosDatabaseName: cosmosDatabase.outputs.databaseName
     cosmosSessionsContainerName: cosmosDatabase.outputs.sessionsContainerName
     appInsightsConnectionString: observability.outputs.appInsightsConnectionString
+    imageRef: sweeperImageRef
   }
 }
 

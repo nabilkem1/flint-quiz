@@ -24,12 +24,28 @@ import sys
 from azure.identity.aio import DefaultAzureCredential
 
 from src.data.cosmos_repository import CosmosRepository
+from src.observability.telemetry import TelemetryConfig, initialise_telemetry
 from src.sweeper._core import SweeperConfig, run_sweeper_tick
 
 logger = logging.getLogger("sweeper.job")
 
 
 async def _amain() -> int:
+    # Initialise OTel BEFORE `run_sweeper_tick` so the four `sweeper.*`
+    # counters bind to the real Azure-Monitor MeterProvider. Skipping this
+    # leaves them tied to the OTel NoOp default and metrics never leave
+    # the container.
+    initialise_telemetry(
+        TelemetryConfig(
+            connection_string=os.environ.get("APPLICATIONINSIGHTS_CONNECTION_STRING"),
+            service_name="flint-quiz-sweeper",
+            service_instance_id=os.environ.get("CONTAINER_APP_REPLICA_NAME", "local"),
+        ),
+        # Foundry tracing is irrelevant here — the sweeper never calls
+        # the Foundry runtime, so opt out to keep boot snappy.
+        enable_foundry_tracing=False,
+    )
+
     cfg = SweeperConfig()  # raises if SWEEPER_ALLOWED_CONTAINER != "sessions"
     credential = DefaultAzureCredential()
     repo = CosmosRepository(

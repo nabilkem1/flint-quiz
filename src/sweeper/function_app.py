@@ -13,10 +13,13 @@ guard, and 412-race handling.
 
 from __future__ import annotations
 
+import os
+
 import azure.functions as func  # type: ignore[import-not-found]
 from azure.identity.aio import DefaultAzureCredential
 
 from src.data.cosmos_repository import CosmosRepository
+from src.observability.telemetry import TelemetryConfig, initialise_telemetry
 from src.sweeper._core import (
     DEFAULT_MAX_STRANDED_SECONDS,
     DEFAULT_PAUSE_THRESHOLD_SECONDS,
@@ -40,6 +43,16 @@ async def sweeper_tick(timer: func.TimerRequest) -> None:
 
     if timer.past_due:
         logger.warning("sweeper.past_due_tick")
+
+    # Idempotent; only the first call wires OTel. See `_core._record_metrics`
+    # for why this must run before `run_sweeper_tick`.
+    initialise_telemetry(
+        TelemetryConfig(
+            connection_string=os.environ.get("APPLICATIONINSIGHTS_CONNECTION_STRING"),
+            service_name="flint-quiz-sweeper",
+        ),
+        enable_foundry_tracing=False,
+    )
 
     cfg = SweeperConfig()
     credential = DefaultAzureCredential()

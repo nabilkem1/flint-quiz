@@ -28,6 +28,82 @@ from src.data.models import SessionDoc
 
 logger = logging.getLogger(__name__)
 
+# ---------------------------------------------------------------------------
+# OpenTelemetry counters — wire the 4 sweeper outcomes into App Insights
+# `customMetrics`. The entry point (function_app / __main__) is responsible
+# for calling `initialise_telemetry()` BEFORE `run_sweeper_tick`, so the
+# global MeterProvider is real (not the OTel NoOp default) by the time we
+# lazily resolve counters here.
+# ---------------------------------------------------------------------------
+
+_METER_NAME = "flint-quiz.sweeper"
+_COUNTERS: dict[str, object] | None = None
+
+
+def _get_counters() -> dict[str, object]:
+    """Lazy counter resolution against the current global MeterProvider.
+
+    Called once per tick from `run_sweeper_tick`. We cache after the first
+    successful call — re-resolving each tick is harmless (the OTel API
+    dedupes by name) but the dict lookup is faster than the meter-provider
+    walk on the hot path.
+    """
+
+    global _COUNTERS
+    if _COUNTERS is not None:
+        return _COUNTERS
+
+    from opentelemetry import metrics  # noqa: PLC0415 — lazy keeps imports cheap
+
+    meter = metrics.get_meter(_METER_NAME)
+    _COUNTERS = {
+        "scanned": meter.create_counter(
+            "sweeper.scanned",
+            description="Sessions scanned per sweeper tick (post `_ts < now-60` filter).",
+            unit="{session}",
+        ),
+        "stranded_released": meter.create_counter(
+            "sweeper.stranded_released",
+            description="Stranded sessions (Active, current_index=0, started_at > max_stranded_seconds) flipped to Expired.",
+            unit="{session}",
+        ),
+        "expired_swept": meter.create_counter(
+            "sweeper.expired_swept",
+            description="Sessions whose total time_limit_seconds elapsed; flipped to Expired with unanswered slots auto-graded.",
+            unit="{session}",
+        ),
+        "paused_swept": meter.create_counter(
+            "sweeper.paused_swept",
+            description="Active sessions idle on a question past pause_threshold_seconds; flipped to Paused.",
+            unit="{session}",
+        ),
+    }
+    return _COUNTERS
+
+
+def _record_metrics(counters: dict[str, int]) -> None:
+    """Emit the per-tick counts to OTel. Cheap; no-op if export is unwired."""
+
+    try:
+        meters = _get_counters()
+    except Exception:  # noqa: BLE001 — never let metric wiring crash a tick
+        logger.warning("sweeper.metric_wiring_failed", exc_info=True)
+        return
+
+    for key, value in counters.items():
+        instrument = meters.get(key)
+        if instrument is None:
+            continue
+        # `add(0)` is a valid no-op and won't pollute the time series; emit
+        # unconditionally so every tick contributes a data point (useful for
+        # "is the sweeper alive?" dashboards).
+        try:
+            instrument.add(value)  # type: ignore[attr-defined]
+        except Exception:  # noqa: BLE001
+            logger.warning(
+                "sweeper.metric_emit_failed", extra={"counter": key}, exc_info=True
+            )
+
 # Defaults match 008-api §4.7 and tasks/003 TASK-191. The host (Functions
 # or CAJ) reads overrides from App Configuration at boot via the agent UAMI;
 # for v1 we read straight from env, falling back to the documented defaults.
@@ -194,6 +270,7 @@ async def run_sweeper_tick(cfg: SweeperConfig, repo: CosmosRepository) -> dict[s
             counters[counter_key] += 1
 
     logger.info("sweeper.tick", extra=counters)
+    _record_metrics(counters)
     return counters
 
 

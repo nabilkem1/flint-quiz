@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-sec-rbac-003",
+  "topic": "azure-security",
+  "language": "fr",
+  "text": "Quel principe doit guider les attributions de rôle Azure ?",
+  "options": [
+    {
+      "key": "A",
+      "text": "Moindre privilège limité à la plus petite ressource"
+    },
+    {
+      "key": "B",
+      "text": "Propriétaire d'abonnement pour tout le monde"
+    },
+    {
+      "key": "C",
+      "text": "Rôles personnalisés attribués à la racine du tenant"
+    },
+    {
+      "key": "D",
+      "text": "Lecteur au niveau du groupe d'administration"
+    }
+  ],
+  "correct_answer": [
+    "A"
+  ],
+  "difficulty": "easy",
+  "tags": [
+    "rbac",
+    "least-privilege"
+  ],
+  "category": "security",
+  "explanation": "Le moindre privilège délimité à la plus petite ressource pertinente (ou au groupe de ressources lorsque la portée par ressource n'est pas possible) est la discipline canonique d'Azure RBAC.",
+  "score_weight": 1.0
+}

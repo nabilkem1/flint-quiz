@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-stg-fs-008",
+  "topic": "azure-storage",
+  "language": "fr",
+  "text": "Quel service Azure Storage fournit des partages de fichiers SMB et NFS entièrement managés ?",
+  "options": [
+    {
+      "key": "A",
+      "text": "Azure Files"
+    },
+    {
+      "key": "B",
+      "text": "Azure Blob Storage"
+    },
+    {
+      "key": "C",
+      "text": "Files d'attente Azure"
+    },
+    {
+      "key": "D",
+      "text": "Stockage Table Azure"
+    }
+  ],
+  "correct_answer": [
+    "A"
+  ],
+  "difficulty": "easy",
+  "tags": [
+    "files",
+    "smb"
+  ],
+  "category": "storage",
+  "explanation": "Azure Files fournit des partages de fichiers managés accessibles via les protocoles SMB et NFS ; Blob Storage expose le stockage d'objets, les files d'attente et les tables exposent d'autres primitives.",
+  "score_weight": 1.0
+}

@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-net-agw-004",
+  "topic": "azure-networking",
+  "language": "es",
+  "text": "¿Qué servicio de Azure proporciona equilibrio de carga de capa 7 con una opción de firewall de aplicaciones web?",
+  "options": [
+    {
+      "key": "A",
+      "text": "Application Gateway"
+    },
+    {
+      "key": "B",
+      "text": "Azure Load Balancer"
+    },
+    {
+      "key": "C",
+      "text": "Traffic Manager"
+    },
+    {
+      "key": "D",
+      "text": "Puerta de enlace VPN"
+    }
+  ],
+  "correct_answer": [
+    "A"
+  ],
+  "difficulty": "medium",
+  "tags": [
+    "application-gateway",
+    "waf"
+  ],
+  "category": "networking",
+  "explanation": "Application Gateway es un equilibrador de carga de capa 7 con un nivel de Web Application Firewall (WAF) integrado; Azure Load Balancer opera en la capa 4.",
+  "score_weight": 1.0
+}

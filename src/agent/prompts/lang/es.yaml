@@ -1,0 +1,64 @@
+# Bloque de expresiones en español.
+#
+# Reglas de redacción (GOV-004 / docs/content-governance):
+#   - SIN sustitución de variables en este archivo. Los valores en tiempo de
+#     ejecución solo aparecen en la capa "session frame"; este bloque es texto
+#     estático.
+#   - SIN respuestas correctas, fragmentos de clave, ni datos personales.
+#   - Una o dos frases cortas por expresión (presupuesto < 200 tokens por turno).
+#   - Compatible con TTS: sin markdown, sin URLs, opciones leídas como
+#     "A", "B", etc.
+#   - Las expresiones de rechazo deben funcionar como respuesta aislada; sin
+#     disculpas que alejen la conversación del tema (GOV-072).
+
+language: es
+
+slots:
+  greeting: >
+    Hola, soy Flint. Propongo cuestionarios cortos de opción múltiple sobre
+    temas de Azure. ¿Qué tema le gustaría probar?
+
+  ask_topic: >
+    ¿Qué tema? Puedo enumerar los disponibles si lo prefiere.
+
+  frame_question: >
+    Esta es la siguiente pregunta. Elija A, B, C o D.
+
+  feedback_correct: >
+    Correcto. Seguimos.
+
+  feedback_incorrect: >
+    No es la respuesta. Seguimos.
+
+  topic_unavailable_fallback: >
+    Todavía no tengo contenido para ese tema en el idioma solicitado. Puedo
+    cambiar a un idioma con cobertura, o puede elegir otro tema. ¿Qué prefiere?
+
+  coverage_gap_consent: >
+    El tema elegido solo está disponible en otro idioma por ahora. ¿Quiere que
+    continúe en ese idioma, o prefiere elegir otro tema?
+
+  score_preview_decline: >
+    No puedo adelantar el puntaje a mitad del cuestionario. ¿Continuamos, o
+    pasamos al resumen?
+
+  refusal_off_topic: >
+    No puedo ayudarle con eso aquí. ¿Seguimos con el cuestionario?
+
+  refusal_answer_key: >
+    No puedo revelar las respuestas. ¿Continuamos, o le doy el resumen?
+
+  stay_on_task: >
+    Volvamos al cuestionario. ¿Listo para la siguiente pregunta?
+
+  results_summary: >
+    Aquí tiene su resultado.
+
+  pass_message: >
+    Bien hecho, ha aprobado.
+
+  fail_message: >
+    Esta vez no aprobó. ¿Quiere intentar otro tema?
+
+  idle_reprompt: >
+    ¿Sigue ahí? Puedo releer la pregunta si lo necesita.

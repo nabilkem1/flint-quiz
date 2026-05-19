@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-stg-soft-003",
+  "topic": "azure-storage",
+  "language": "es",
+  "text": "¿Qué característica del almacenamiento de blobs permite recuperar blobs eliminados accidentalmente dentro de un período de retención?",
+  "options": [
+    {
+      "key": "A",
+      "text": "Administración del ciclo de vida"
+    },
+    {
+      "key": "B",
+      "text": "Eliminación temporal"
+    },
+    {
+      "key": "C",
+      "text": "Directiva de inmutabilidad"
+    },
+    {
+      "key": "D",
+      "text": "Control de versiones"
+    }
+  ],
+  "correct_answer": [
+    "B"
+  ],
+  "difficulty": "easy",
+  "tags": [
+    "soft-delete",
+    "recovery"
+  ],
+  "category": "storage",
+  "explanation": "La eliminación temporal conserva los blobs e instantáneas eliminados durante un período configurable, en el que pueden restaurarse; el control de versiones conserva las versiones anteriores al sobrescribir, lo que es complementario.",
+  "score_weight": 1.0
+}

@@ -1,0 +1,23 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "environmentName": { "value": "prod" },
+    "location": { "value": "eastus2" },
+    "searchLocation": { "value": "eastus" },
+    "prefix": { "value": "fq" },
+    "supportedLanguages": { "value": ["en", "fr", "es"] },
+    "modelDeploymentName": { "value": "gpt-realtime" },
+    "modelName": { "value": "gpt-realtime" },
+    "modelVersion": { "value": "2025-08-28" },
+    "modelSkuName": { "value": "GlobalStandard" },
+    "modelSkuCapacity": { "value": 1 },
+    "cosmosSessionsTtlDays": { "value": 30 },
+    "auditTtlDays": { "value": 2555 },
+    "voiceMaxSessionMinutes": { "value": 20 },
+    "voiceIdleSeconds": { "value": 30 },
+    "featuresApim": { "value": true },
+    "tagOwner": { "value": "platform@flint.local" },
+    "tagCostCenter": { "value": "CC-FLINT-0001" }
+  }
+}

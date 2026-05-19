@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-net-dns-007",
+  "topic": "azure-networking",
+  "language": "es",
+  "text": "¿Qué característica resuelve los nombres de los recursos dentro de una red virtual de Azure sin usar DNS público?",
+  "options": [
+    {
+      "key": "A",
+      "text": "DNS público de Azure"
+    },
+    {
+      "key": "B",
+      "text": "Zona DNS de Azure"
+    },
+    {
+      "key": "C",
+      "text": "Zona DNS privada de Azure"
+    },
+    {
+      "key": "D",
+      "text": "Traffic Manager"
+    }
+  ],
+  "correct_answer": [
+    "C"
+  ],
+  "difficulty": "easy",
+  "tags": [
+    "dns",
+    "private-dns"
+  ],
+  "category": "networking",
+  "explanation": "Las zonas DNS privadas de Azure proporcionan resolución de nombres para los recursos dentro de una red virtual sin exponer los registros públicamente.",
+  "score_weight": 1.0
+}

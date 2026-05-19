@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-stg-soft-003",
+  "topic": "azure-storage",
+  "language": "en",
+  "text": "Which Blob Storage feature allows recovery of accidentally deleted blobs within a retention window?",
+  "options": [
+    {
+      "key": "A",
+      "text": "Lifecycle management"
+    },
+    {
+      "key": "B",
+      "text": "Soft delete"
+    },
+    {
+      "key": "C",
+      "text": "Immutability policy"
+    },
+    {
+      "key": "D",
+      "text": "Versioning"
+    }
+  ],
+  "correct_answer": [
+    "B"
+  ],
+  "difficulty": "easy",
+  "tags": [
+    "soft-delete",
+    "recovery"
+  ],
+  "category": "storage",
+  "explanation": "Soft delete retains deleted blobs and snapshots for a configurable period during which they can be undeleted; versioning preserves prior versions on overwrite, which is complementary.",
+  "score_weight": 1.0
+}

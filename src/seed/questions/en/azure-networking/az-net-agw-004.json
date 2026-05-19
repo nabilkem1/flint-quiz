@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-net-agw-004",
+  "topic": "azure-networking",
+  "language": "en",
+  "text": "Which Azure service provides Layer 7 load balancing with a Web Application Firewall option?",
+  "options": [
+    {
+      "key": "A",
+      "text": "Application Gateway"
+    },
+    {
+      "key": "B",
+      "text": "Azure Load Balancer"
+    },
+    {
+      "key": "C",
+      "text": "Traffic Manager"
+    },
+    {
+      "key": "D",
+      "text": "VPN Gateway"
+    }
+  ],
+  "correct_answer": [
+    "A"
+  ],
+  "difficulty": "medium",
+  "tags": [
+    "application-gateway",
+    "waf"
+  ],
+  "category": "networking",
+  "explanation": "Application Gateway is a Layer 7 load balancer with an integrated Web Application Firewall (WAF) tier; Azure Load Balancer operates at Layer 4.",
+  "score_weight": 1.0
+}

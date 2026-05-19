@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-stg-enc-005",
+  "topic": "azure-storage",
+  "language": "fr",
+  "text": "Comment les données d'un compte de stockage Azure sont-elles chiffrées au repos par défaut ?",
+  "options": [
+    {
+      "key": "A",
+      "text": "Elles doivent être chiffrées par l'application avant l'envoi"
+    },
+    {
+      "key": "B",
+      "text": "Automatiquement avec des clés gérées par la plateforme"
+    },
+    {
+      "key": "C",
+      "text": "Uniquement lorsqu'une clé gérée par le client est configurée"
+    },
+    {
+      "key": "D",
+      "text": "Uniquement pour les comptes Premium"
+    }
+  ],
+  "correct_answer": [
+    "B"
+  ],
+  "difficulty": "easy",
+  "tags": [
+    "encryption",
+    "rest"
+  ],
+  "category": "storage",
+  "explanation": "Le chiffrement de service de stockage est activé par défaut avec des clés gérées par la plateforme ; le client peut éventuellement configurer des clés gérées par le client dans Key Vault pour un contrôle accru.",
+  "score_weight": 1.0
+}

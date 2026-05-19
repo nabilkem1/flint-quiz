@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-net-nsg-003",
+  "topic": "azure-networking",
+  "language": "en",
+  "text": "At which layer can a Network Security Group rule filter traffic?",
+  "options": [
+    {
+      "key": "A",
+      "text": "Application layer only"
+    },
+    {
+      "key": "B",
+      "text": "Layer 3 and Layer 4"
+    },
+    {
+      "key": "C",
+      "text": "Layer 2"
+    },
+    {
+      "key": "D",
+      "text": "Layer 7 only"
+    }
+  ],
+  "correct_answer": [
+    "B"
+  ],
+  "difficulty": "easy",
+  "tags": [
+    "nsg",
+    "firewall"
+  ],
+  "category": "networking",
+  "explanation": "Network Security Groups filter at Layers 3 and 4 — by source / destination IP, port, and protocol. Layer 7 inspection requires Application Gateway with WAF or Azure Firewall.",
+  "score_weight": 1.0
+}

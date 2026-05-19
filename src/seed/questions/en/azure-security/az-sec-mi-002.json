@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-sec-mi-002",
+  "topic": "azure-security",
+  "language": "en",
+  "text": "Which identity type lets an Azure virtual machine call Key Vault without storing any credentials?",
+  "options": [
+    {
+      "key": "A",
+      "text": "Service principal with client secret"
+    },
+    {
+      "key": "B",
+      "text": "Managed identity"
+    },
+    {
+      "key": "C",
+      "text": "Personal access token"
+    },
+    {
+      "key": "D",
+      "text": "Shared access signature"
+    }
+  ],
+  "correct_answer": [
+    "B"
+  ],
+  "difficulty": "medium",
+  "tags": [
+    "managed-identity",
+    "rbac"
+  ],
+  "category": "security",
+  "explanation": "A managed identity is an Entra identity tied to the resource lifecycle and used to acquire tokens for Azure services without secrets stored on the host.",
+  "score_weight": 1.0
+}

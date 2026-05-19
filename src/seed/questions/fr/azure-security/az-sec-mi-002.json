@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-sec-mi-002",
+  "topic": "azure-security",
+  "language": "fr",
+  "text": "Quel type d'identité permet à une machine virtuelle Azure d'appeler Key Vault sans stocker d'identifiants ?",
+  "options": [
+    {
+      "key": "A",
+      "text": "Principal de service avec secret client"
+    },
+    {
+      "key": "B",
+      "text": "Identité managée"
+    },
+    {
+      "key": "C",
+      "text": "Jeton d'accès personnel"
+    },
+    {
+      "key": "D",
+      "text": "Signature d'accès partagé"
+    }
+  ],
+  "correct_answer": [
+    "B"
+  ],
+  "difficulty": "medium",
+  "tags": [
+    "managed-identity",
+    "rbac"
+  ],
+  "category": "security",
+  "explanation": "Une identité managée est une identité Entra liée au cycle de vie de la ressource, utilisée pour obtenir des jetons d'accès aux services Azure sans stocker de secrets sur l'hôte.",
+  "score_weight": 1.0
+}

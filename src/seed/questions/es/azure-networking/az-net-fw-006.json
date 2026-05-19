@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-net-fw-006",
+  "topic": "azure-networking",
+  "language": "es",
+  "text": "¿Qué servicio de Azure es un firewall con estado que admite el filtrado por nombre de dominio completo?",
+  "options": [
+    {
+      "key": "A",
+      "text": "Grupo de seguridad de red"
+    },
+    {
+      "key": "B",
+      "text": "Azure Firewall"
+    },
+    {
+      "key": "C",
+      "text": "Application Gateway"
+    },
+    {
+      "key": "D",
+      "text": "Azure Bastion"
+    }
+  ],
+  "correct_answer": [
+    "B"
+  ],
+  "difficulty": "medium",
+  "tags": [
+    "firewall",
+    "fqdn"
+  ],
+  "category": "networking",
+  "explanation": "Azure Firewall es un servicio de firewall administrado con estado que admite etiquetas FQDN, reglas de aplicación e inteligencia sobre amenazas; los NSG son reglas sin estado de capas 3 y 4.",
+  "score_weight": 1.0
+}

@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-sec-def-004",
+  "topic": "azure-security",
+  "language": "fr",
+  "text": "Quel service Azure fournit la protection des charges de travail dans le cloud et la gestion de la posture ?",
+  "options": [
+    {
+      "key": "A",
+      "text": "Azure Sentinel"
+    },
+    {
+      "key": "B",
+      "text": "Microsoft Defender pour le cloud"
+    },
+    {
+      "key": "C",
+      "text": "Azure Policy"
+    },
+    {
+      "key": "D",
+      "text": "Azure Monitor"
+    }
+  ],
+  "correct_answer": [
+    "B"
+  ],
+  "difficulty": "medium",
+  "tags": [
+    "defender",
+    "cwp"
+  ],
+  "category": "security",
+  "explanation": "Microsoft Defender pour le cloud combine la gestion de la posture de sécurité cloud et la protection des charges de travail sur serveurs, conteneurs, bases de données et plus encore.",
+  "score_weight": 1.0
+}

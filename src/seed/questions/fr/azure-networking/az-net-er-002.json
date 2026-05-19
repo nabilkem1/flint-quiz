@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-net-er-002",
+  "topic": "azure-networking",
+  "language": "fr",
+  "text": "Quel service Azure offre une connexion privée vers Azure qui ne passe pas par l'internet public ?",
+  "options": [
+    {
+      "key": "A",
+      "text": "Passerelle VPN"
+    },
+    {
+      "key": "B",
+      "text": "Azure Bastion"
+    },
+    {
+      "key": "C",
+      "text": "ExpressRoute"
+    },
+    {
+      "key": "D",
+      "text": "WAN virtuel"
+    }
+  ],
+  "correct_answer": [
+    "C"
+  ],
+  "difficulty": "medium",
+  "tags": [
+    "expressroute",
+    "private"
+  ],
+  "category": "networking",
+  "explanation": "ExpressRoute établit une connexion privée entre l'infrastructure sur site et Azure via un fournisseur de connectivité, sans transiter par l'internet public.",
+  "score_weight": 1.0
+}

@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-stg-tier-002",
+  "topic": "azure-storage",
+  "language": "fr",
+  "text": "Quel niveau d'accès Blob minimise le coût de stockage pour des données rarement consultées et tolérant plusieurs heures de latence de récupération ?",
+  "options": [
+    {
+      "key": "A",
+      "text": "Chaud"
+    },
+    {
+      "key": "B",
+      "text": "Froid"
+    },
+    {
+      "key": "C",
+      "text": "Glacial"
+    },
+    {
+      "key": "D",
+      "text": "Archive"
+    }
+  ],
+  "correct_answer": [
+    "D"
+  ],
+  "difficulty": "medium",
+  "tags": [
+    "tier",
+    "archive"
+  ],
+  "category": "storage",
+  "explanation": "Le niveau Archive offre le coût de stockage le plus bas pour des blobs avec une latence de récupération de plusieurs heures via une opération de réhydratation ; les niveaux Glacial et Froid sont plus chauds.",
+  "score_weight": 1.0
+}

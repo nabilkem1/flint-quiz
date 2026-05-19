@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-stg-enc-005",
+  "topic": "azure-storage",
+  "language": "es",
+  "text": "¿Cómo se cifran de forma predeterminada los datos en reposo de una cuenta de Almacenamiento de Azure?",
+  "options": [
+    {
+      "key": "A",
+      "text": "Deben cifrarse por la aplicación antes de cargarlos"
+    },
+    {
+      "key": "B",
+      "text": "Automáticamente con claves administradas por la plataforma"
+    },
+    {
+      "key": "C",
+      "text": "Solo cuando se configura una clave administrada por el cliente"
+    },
+    {
+      "key": "D",
+      "text": "Solo en cuentas Premium"
+    }
+  ],
+  "correct_answer": [
+    "B"
+  ],
+  "difficulty": "easy",
+  "tags": [
+    "encryption",
+    "rest"
+  ],
+  "category": "storage",
+  "explanation": "El cifrado del servicio de almacenamiento está habilitado de forma predeterminada con claves administradas por la plataforma; el cliente puede configurar opcionalmente claves administradas por el cliente en Key Vault para un mayor control.",
+  "score_weight": 1.0
+}

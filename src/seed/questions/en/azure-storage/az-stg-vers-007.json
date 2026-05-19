@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-stg-vers-007",
+  "topic": "azure-storage",
+  "language": "en",
+  "text": "Which Blob Storage feature retains previous versions of a blob whenever it is overwritten?",
+  "options": [
+    {
+      "key": "A",
+      "text": "Snapshots"
+    },
+    {
+      "key": "B",
+      "text": "Lifecycle management"
+    },
+    {
+      "key": "C",
+      "text": "Blob versioning"
+    },
+    {
+      "key": "D",
+      "text": "Soft delete"
+    }
+  ],
+  "correct_answer": [
+    "C"
+  ],
+  "difficulty": "medium",
+  "tags": [
+    "versioning",
+    "history"
+  ],
+  "category": "storage",
+  "explanation": "Blob versioning automatically creates an immutable version on every overwrite or delete; snapshots are manually created point-in-time copies and soft delete restores deletes.",
+  "score_weight": 1.0
+}

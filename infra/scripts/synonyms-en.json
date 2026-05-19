@@ -1,0 +1,24 @@
+{
+  "name": "topic-synonyms-en",
+  "format": "solr",
+  "synonyms": [
+    "vpn, ipsec, p2s, site-to-site, s2s",
+    "expressroute, express route, private connection",
+    "nsg, network security group, security group",
+    "load balancer, lb, alb",
+    "private endpoint, private link",
+    "vnet, virtual network",
+    "rbac, role-based access control",
+    "key vault, kv, secrets store",
+    "managed identity, mi, msi, uami, system-assigned identity",
+    "entra, entra id, azure ad, aad",
+    "blob, blob storage, object storage",
+    "soft delete, soft-delete, recoverable delete",
+    "hot tier, hot access tier",
+    "cool tier, cool access tier",
+    "archive tier, archival tier",
+    "geo-redundant, grs, geo redundancy",
+    "lrs, locally redundant",
+    "zrs, zone-redundant"
+  ]
+}

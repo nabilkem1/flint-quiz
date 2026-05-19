@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-net-pl-009",
+  "topic": "azure-networking",
+  "language": "es",
+  "text": "¿Qué característica proporciona conectividad privada desde una red virtual hacia un servicio PaaS de Azure a través de la red troncal de Microsoft?",
+  "options": [
+    {
+      "key": "A",
+      "text": "Punto de conexión privado a través de Private Link"
+    },
+    {
+      "key": "B",
+      "text": "Punto de conexión de servicio"
+    },
+    {
+      "key": "C",
+      "text": "Puerta de enlace VPN"
+    },
+    {
+      "key": "D",
+      "text": "ExpressRoute Global Reach"
+    }
+  ],
+  "correct_answer": [
+    "A"
+  ],
+  "difficulty": "medium",
+  "tags": [
+    "private-link",
+    "private-endpoint"
+  ],
+  "category": "networking",
+  "explanation": "Los puntos de conexión privados exponen un servicio PaaS a una red virtual mediante una dirección IP privada y atraviesan exclusivamente la red troncal de Microsoft; los puntos de conexión de servicio enrutan por la red de Azure pero conservan el punto de conexión público.",
+  "score_weight": 1.0
+}

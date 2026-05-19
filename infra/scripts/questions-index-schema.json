@@ -1,0 +1,221 @@
+{
+  "name": "questions",
+  "fields": [
+    {
+      "name": "id",
+      "type": "Edm.String",
+      "key": true,
+      "searchable": false,
+      "filterable": true,
+      "facetable": false,
+      "sortable": false,
+      "retrievable": true
+    },
+    {
+      "name": "logical_id",
+      "type": "Edm.String",
+      "searchable": false,
+      "filterable": true,
+      "facetable": true,
+      "sortable": true,
+      "retrievable": true
+    },
+    {
+      "name": "topic",
+      "type": "Edm.String",
+      "searchable": false,
+      "filterable": true,
+      "facetable": true,
+      "sortable": true,
+      "retrievable": true
+    },
+    {
+      "name": "language",
+      "type": "Edm.String",
+      "searchable": false,
+      "filterable": true,
+      "facetable": true,
+      "sortable": true,
+      "retrievable": true
+    },
+    {
+      "name": "text_en",
+      "type": "Edm.String",
+      "searchable": true,
+      "filterable": false,
+      "facetable": false,
+      "sortable": false,
+      "retrievable": true,
+      "analyzer": "en.microsoft",
+      "synonymMaps": [
+        "topic-synonyms-en"
+      ]
+    },
+    {
+      "name": "text_fr",
+      "type": "Edm.String",
+      "searchable": true,
+      "filterable": false,
+      "facetable": false,
+      "sortable": false,
+      "retrievable": true,
+      "analyzer": "fr.microsoft",
+      "synonymMaps": [
+        "topic-synonyms-fr"
+      ]
+    },
+    {
+      "name": "text_es",
+      "type": "Edm.String",
+      "searchable": true,
+      "filterable": false,
+      "facetable": false,
+      "sortable": false,
+      "retrievable": true,
+      "analyzer": "es.microsoft",
+      "synonymMaps": [
+        "topic-synonyms-es"
+      ]
+    },
+    {
+      "name": "options",
+      "type": "Collection(Edm.ComplexType)",
+      "fields": [
+        {
+          "name": "key",
+          "type": "Edm.String",
+          "searchable": false,
+          "filterable": false,
+          "facetable": false,
+          "sortable": false,
+          "retrievable": true
+        },
+        {
+          "name": "text",
+          "type": "Edm.String",
+          "searchable": false,
+          "filterable": false,
+          "facetable": false,
+          "sortable": false,
+          "retrievable": true
+        }
+      ]
+    },
+    {
+      "name": "correct_answer",
+      "type": "Collection(Edm.String)",
+      "searchable": false,
+      "filterable": false,
+      "facetable": false,
+      "sortable": false,
+      "retrievable": true
+    },
+    {
+      "name": "difficulty",
+      "type": "Edm.String",
+      "searchable": false,
+      "filterable": true,
+      "facetable": true,
+      "sortable": true,
+      "retrievable": true
+    },
+    {
+      "name": "tags",
+      "type": "Collection(Edm.String)",
+      "searchable": false,
+      "filterable": true,
+      "facetable": true,
+      "sortable": false,
+      "retrievable": true
+    },
+    {
+      "name": "category",
+      "type": "Edm.String",
+      "searchable": false,
+      "filterable": true,
+      "facetable": true,
+      "sortable": true,
+      "retrievable": true
+    },
+    {
+      "name": "explanation_en",
+      "type": "Edm.String",
+      "searchable": true,
+      "filterable": false,
+      "facetable": false,
+      "sortable": false,
+      "retrievable": true,
+      "analyzer": "en.microsoft"
+    },
+    {
+      "name": "explanation_fr",
+      "type": "Edm.String",
+      "searchable": true,
+      "filterable": false,
+      "facetable": false,
+      "sortable": false,
+      "retrievable": true,
+      "analyzer": "fr.microsoft"
+    },
+    {
+      "name": "explanation_es",
+      "type": "Edm.String",
+      "searchable": true,
+      "filterable": false,
+      "facetable": false,
+      "sortable": false,
+      "retrievable": true,
+      "analyzer": "es.microsoft"
+    },
+    {
+      "name": "score_weight",
+      "type": "Edm.Double",
+      "searchable": false,
+      "filterable": true,
+      "facetable": false,
+      "sortable": true,
+      "retrievable": true
+    },
+    {
+      "name": "seed_hash",
+      "type": "Edm.String",
+      "searchable": false,
+      "filterable": true,
+      "facetable": false,
+      "sortable": false,
+      "retrievable": true
+    }
+  ],
+  "semantic": {
+    "configurations": [
+      {
+        "name": "default",
+        "prioritizedFields": {
+          "titleField": null,
+          "prioritizedContentFields": [
+            {
+              "fieldName": "text_en"
+            },
+            {
+              "fieldName": "text_fr"
+            },
+            {
+              "fieldName": "text_es"
+            }
+          ],
+          "prioritizedKeywordsFields": [
+            {
+              "fieldName": "tags"
+            },
+            {
+              "fieldName": "topic"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "corsOptions": null,
+  "suggesters": [],
+  "scoringProfiles": []
+}

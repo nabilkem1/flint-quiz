@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-sec-mi-002",
+  "topic": "azure-security",
+  "language": "es",
+  "text": "¿Qué tipo de identidad permite que una máquina virtual de Azure llame a Key Vault sin almacenar credenciales?",
+  "options": [
+    {
+      "key": "A",
+      "text": "Entidad de servicio con secreto de cliente"
+    },
+    {
+      "key": "B",
+      "text": "Identidad administrada"
+    },
+    {
+      "key": "C",
+      "text": "Token de acceso personal"
+    },
+    {
+      "key": "D",
+      "text": "Firma de acceso compartido"
+    }
+  ],
+  "correct_answer": [
+    "B"
+  ],
+  "difficulty": "medium",
+  "tags": [
+    "managed-identity",
+    "rbac"
+  ],
+  "category": "security",
+  "explanation": "Una identidad administrada es una identidad de Entra vinculada al ciclo de vida del recurso, utilizada para obtener tokens de acceso a los servicios de Azure sin almacenar secretos en el host.",
+  "score_weight": 1.0
+}

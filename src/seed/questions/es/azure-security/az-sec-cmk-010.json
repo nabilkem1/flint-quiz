@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-sec-cmk-010",
+  "topic": "azure-security",
+  "language": "es",
+  "text": "¿Qué permite usar material de claves controlado por el cliente para el cifrado en reposo de los recursos de Azure?",
+  "options": [
+    {
+      "key": "A",
+      "text": "Claves de acceso de la cuenta de almacenamiento"
+    },
+    {
+      "key": "B",
+      "text": "Claves administradas por Microsoft"
+    },
+    {
+      "key": "C",
+      "text": "Claves administradas por el cliente respaldadas por Azure Key Vault"
+    },
+    {
+      "key": "D",
+      "text": "Firmas de acceso compartido"
+    }
+  ],
+  "correct_answer": [
+    "C"
+  ],
+  "difficulty": "hard",
+  "tags": [
+    "cmk",
+    "encryption"
+  ],
+  "category": "security",
+  "explanation": "Las claves administradas por el cliente (CMK) almacenadas en Azure Key Vault permiten al cliente rotar y revocar el material de cifrado en reposo independientemente del servicio que lo almacena.",
+  "score_weight": 1.0
+}

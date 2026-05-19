@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-sec-sen-005",
+  "topic": "azure-security",
+  "language": "en",
+  "text": "Which Azure service is the cloud-native security information and event management platform?",
+  "options": [
+    {
+      "key": "A",
+      "text": "Microsoft Sentinel"
+    },
+    {
+      "key": "B",
+      "text": "Microsoft Defender for Cloud"
+    },
+    {
+      "key": "C",
+      "text": "Azure Monitor"
+    },
+    {
+      "key": "D",
+      "text": "Azure Policy"
+    }
+  ],
+  "correct_answer": [
+    "A"
+  ],
+  "difficulty": "medium",
+  "tags": [
+    "sentinel",
+    "siem"
+  ],
+  "category": "security",
+  "explanation": "Microsoft Sentinel is the cloud-native SIEM and SOAR platform; it ingests signals from across Azure and beyond and orchestrates detections and responses.",
+  "score_weight": 1.0
+}

@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-sec-def-004",
+  "topic": "azure-security",
+  "language": "en",
+  "text": "Which Azure service provides cloud workload protection and posture management?",
+  "options": [
+    {
+      "key": "A",
+      "text": "Azure Sentinel"
+    },
+    {
+      "key": "B",
+      "text": "Microsoft Defender for Cloud"
+    },
+    {
+      "key": "C",
+      "text": "Azure Policy"
+    },
+    {
+      "key": "D",
+      "text": "Azure Monitor"
+    }
+  ],
+  "correct_answer": [
+    "B"
+  ],
+  "difficulty": "medium",
+  "tags": [
+    "defender",
+    "cwp"
+  ],
+  "category": "security",
+  "explanation": "Microsoft Defender for Cloud combines cloud security posture management with cloud workload protection across servers, containers, databases, and more.",
+  "score_weight": 1.0
+}

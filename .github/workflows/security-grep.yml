@@ -1,0 +1,127 @@
+# Credential-pattern grep (TASK-120 / SEC-004 / NFR-007).
+#
+# This is the load-bearing check that **no connection string, account
+# key, SAS token, or `ApiKey=`** ever lands in the repo. Runs on every
+# PR and on every push to main. Failing the grep blocks merge.
+#
+# Exception list (documented inline below):
+#   * App Insights connection string — per Microsoft guidance it is NOT
+#     a secret (it identifies a workspace, not authenticates writes).
+#     It MAY appear in:
+#       - `infra/main.bicep` (Bicep output bound to env var)
+#       - `infra/modules/observability.bicep` (output)
+#       - `docs/secrets.md` (documented exception)
+#     Anywhere else is a violation.
+#
+# Excluded paths: `*.md` / `docs/**` (descriptive references), `.github/`
+# (this file itself describes the patterns), `tests/**` (synthetic
+# fixtures may embed shaped strings; pyproject.toml already permits
+# `S105/S106` there).
+
+name: security-grep
+
+on:
+  pull_request:
+    branches: ["**"]
+  push:
+    branches: ["main"]
+
+permissions:
+  contents: read
+
+jobs:
+  credential-pattern-grep:
+    name: Block secret-shaped strings in source
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Grep for forbidden secret patterns
+        run: |
+          set -euo pipefail
+
+          # Patterns that indicate a secret in source. The patterns are
+          # ORed; any hit fails the job.
+          #
+          # `AccountKey=` / `AccountEndpoint=...AccountKey=` — Cosmos /
+          # Storage connection strings.
+          # `SharedAccessSignature` — Storage SAS token literal.
+          # `ApiKey=` / `api_key=` / `API_KEY=` — generic API key.
+          # `client_secret`           — Entra app secret.
+          # `os.environ\["...KEY..."\]` / `os.environ\["...CONNECTION_STRING..."\]`
+          #                          — runtime read of a secret env var.
+          # `AZURE_COSMOS_KEY` / `AZURE_SEARCH_KEY` — known shapes.
+          PATTERNS=(
+            'AccountKey='
+            'AccountEndpoint=.*AccountKey='
+            'SharedAccessSignature'
+            'ApiKey='
+            'api_key='
+            'API_KEY='
+            'client_secret'
+            'os\.environ\[\s*["\047][A-Z_0-9]*KEY[A-Z_0-9]*["\047]\s*\]'
+            'os\.environ\[\s*["\047][A-Z_0-9]*CONNECTION_STRING[A-Z_0-9]*["\047]\s*\]'
+          )
+
+          # Excluded paths. App Insights conn-string lives in main.bicep and
+          # observability.bicep by design (documented in docs/secrets.md);
+          # we use a path-level allowlist for those two files and the
+          # documentation tree.
+          EXCLUDES=(
+            ':!docs/**'
+            ':!**/*.md'
+            ':!.github/**'
+            ':!tests/**'
+            ':!infra/main.bicep'
+            ':!infra/modules/observability.bicep'
+            ':!.specify/**'
+            ':!tasks/**'
+            ':!adr/**'
+            ':!specs/**'
+          )
+
+          FAIL=0
+          for pat in "${PATTERNS[@]}"; do
+            echo "::group::pattern: ${pat}"
+            # `-P` PCRE; `-I` skip binary; `--cached` to scan tree.
+            if git grep -nP -I -E -- "${pat}" -- "${EXCLUDES[@]}" 2>/dev/null; then
+              echo "::error::forbidden pattern matched: ${pat}"
+              FAIL=1
+            else
+              echo "ok"
+            fi
+            echo "::endgroup::"
+          done
+
+          if [[ ${FAIL} -ne 0 ]]; then
+            echo "::error::credential-pattern grep FAILED — remove secret-shaped strings before merging."
+            exit 1
+          fi
+          echo "credential-pattern grep PASSED"
+
+  appinsights-exception-bounds:
+    name: App Insights connection-string only in approved files
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Bound the documented exception
+        run: |
+          set -euo pipefail
+          ALLOWED='^(infra/main\.bicep|infra/modules/observability\.bicep|infra/main\.json|infra/main\.parameters\.[a-z]+\.json|docs/secrets\.md|docs/llm-boundary\.md|\.github/workflows/security-grep\.yml)$'
+
+          # `InstrumentationKey=` is the substring that distinguishes the
+          # App Insights connection string from generic conn strings; we
+          # bound where this substring can appear.
+          OFFENDERS=$(git grep -lI 'InstrumentationKey=' -- ':!docs/**' ':!.specify/**' ':!tasks/**' ':!adr/**' ':!specs/**' || true)
+          FAIL=0
+          for f in ${OFFENDERS}; do
+            if [[ ! "${f}" =~ ${ALLOWED} ]]; then
+              echo "::error file=${f}::App Insights connection string outside the allowed file set"
+              FAIL=1
+            fi
+          done
+          if [[ ${FAIL} -ne 0 ]]; then
+            exit 1
+          fi
+          echo "App Insights conn-string scope OK"

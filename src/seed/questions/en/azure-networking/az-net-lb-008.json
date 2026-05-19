@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-net-lb-008",
+  "topic": "azure-networking",
+  "language": "en",
+  "text": "At which OSI layer does Azure Load Balancer operate?",
+  "options": [
+    {
+      "key": "A",
+      "text": "Layer 7"
+    },
+    {
+      "key": "B",
+      "text": "Layer 4"
+    },
+    {
+      "key": "C",
+      "text": "Layer 2"
+    },
+    {
+      "key": "D",
+      "text": "Layer 3"
+    }
+  ],
+  "correct_answer": [
+    "B"
+  ],
+  "difficulty": "easy",
+  "tags": [
+    "load-balancer",
+    "layer4"
+  ],
+  "category": "networking",
+  "explanation": "Azure Load Balancer is a Layer 4 (TCP/UDP) load balancer. For Layer 7 application-aware routing, use Application Gateway or Azure Front Door.",
+  "score_weight": 1.0
+}

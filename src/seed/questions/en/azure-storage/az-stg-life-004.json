@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-stg-life-004",
+  "topic": "azure-storage",
+  "language": "en",
+  "text": "Which feature automatically moves blobs between access tiers based on their age?",
+  "options": [
+    {
+      "key": "A",
+      "text": "Lifecycle management policies"
+    },
+    {
+      "key": "B",
+      "text": "Soft delete"
+    },
+    {
+      "key": "C",
+      "text": "Versioning"
+    },
+    {
+      "key": "D",
+      "text": "Object replication"
+    }
+  ],
+  "correct_answer": [
+    "A"
+  ],
+  "difficulty": "medium",
+  "tags": [
+    "lifecycle",
+    "tiering"
+  ],
+  "category": "storage",
+  "explanation": "Lifecycle management policies define rules that transition blobs to cooler tiers or delete them based on age and access patterns.",
+  "score_weight": 1.0
+}

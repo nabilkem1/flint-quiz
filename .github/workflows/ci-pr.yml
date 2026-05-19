@@ -1,0 +1,82 @@
+# PR pipeline (T0/T1 — TASK-175).
+#
+# Gates every PR push. Runs:
+#   * Credential-pattern grep (`security-grep.yml` reused as a job).
+#   * Unit tier — `tests/unit/`.
+#   * Top-level fast-path tests that map to TEST-006, TEST-018,
+#     TEST-019, TEST-020, TEST-021, TEST-024.
+#   * Multilingual grading + language resolution (TASK-162 / TASK-163).
+#
+# Each `TEST-*` ID lives in exactly one tier. The merge / release
+# pipelines pick up the heavier surfaces.
+
+name: ci-pr
+
+on:
+  pull_request:
+    branches: ["**"]
+
+permissions:
+  contents: read
+
+jobs:
+  pr-tests:
+    name: PR tier (T0/T1)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e ".[dev]"
+
+      - name: Lint (ruff)
+        run: ruff check src tests
+
+      - name: Type-check (mypy strict — failures non-blocking in PR tier)
+        run: mypy src
+        continue-on-error: true
+
+      - name: Import-linter (TASK-125)
+        run: python -m importlinter --config infra/scripts/import-linter.ini
+
+      - name: Unit tests
+        run: pytest tests/unit -q --tb=short
+
+      - name: TEST-006 — no answer leakage
+        run: pytest tests/test_no_answer_leakage.py -q
+
+      - name: TEST-018 — prompt redaction
+        run: pytest tests/test_prompt_redaction.py -q
+
+      - name: TEST-019 — tool allowlist + dispatcher
+        run: pytest tests/test_tool_allowlist.py tests/integration/test_dispatcher_allowlist.py -q
+
+      - name: TEST-020 — explanation provenance
+        run: pytest tests/test_explanation_provenance.py -q
+
+      - name: TEST-021 — refusal localisation
+        run: pytest tests/test_refusal_localization.py -q
+
+      - name: TEST-024 — TTS invariants
+        run: pytest tests/test_tts_invariants.py -q
+
+      - name: Grading + language resolution
+        run: pytest tests/test_grading.py tests/test_language_resolution.py -q
+
+      - name: Multilingual matrix + voice normalisation
+        run: pytest tests/test_multilingual_matrix.py tests/test_voice_normalization.py -q
+
+      - name: Negative scenarios (TASK-168)
+        run: pytest tests/test_negative_scenarios.py -q
+
+      - name: Smoke (in-process, T0)
+        run: pytest tests/smoke -q

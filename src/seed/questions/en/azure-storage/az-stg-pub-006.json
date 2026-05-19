@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-stg-pub-006",
+  "topic": "azure-storage",
+  "language": "en",
+  "text": "Which storage account setting must be disabled to prevent anonymous public access to blob containers?",
+  "options": [
+    {
+      "key": "A",
+      "text": "Hierarchical namespace"
+    },
+    {
+      "key": "B",
+      "text": "Allow Blob anonymous access"
+    },
+    {
+      "key": "C",
+      "text": "Soft delete"
+    },
+    {
+      "key": "D",
+      "text": "Secure transfer required"
+    }
+  ],
+  "correct_answer": [
+    "B"
+  ],
+  "difficulty": "easy",
+  "tags": [
+    "public-access",
+    "hardening"
+  ],
+  "category": "storage",
+  "explanation": "Setting Allow Blob anonymous access to disabled blocks any container-level anonymous access, regardless of individual container ACLs.",
+  "score_weight": 1.0
+}

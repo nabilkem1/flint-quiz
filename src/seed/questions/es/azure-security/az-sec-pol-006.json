@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-sec-pol-006",
+  "topic": "azure-security",
+  "language": "es",
+  "text": "¿Qué servicio de Azure aplica reglas de gobernanza en el momento de la implementación y en tiempo de ejecución en las suscripciones?",
+  "options": [
+    {
+      "key": "A",
+      "text": "Microsoft Sentinel"
+    },
+    {
+      "key": "B",
+      "text": "Azure Blueprints"
+    },
+    {
+      "key": "C",
+      "text": "Azure Policy"
+    },
+    {
+      "key": "D",
+      "text": "Azure Monitor"
+    }
+  ],
+  "correct_answer": [
+    "C"
+  ],
+  "difficulty": "medium",
+  "tags": [
+    "policy",
+    "governance"
+  ],
+  "category": "security",
+  "explanation": "Azure Policy evalúa la conformidad de los recursos con reglas configurables y puede denegar implementaciones no conformes o corregir automáticamente la desviación.",
+  "score_weight": 1.0
+}

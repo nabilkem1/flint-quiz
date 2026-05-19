@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-stg-pub-006",
+  "topic": "azure-storage",
+  "language": "fr",
+  "text": "Quel paramètre de compte de stockage doit être désactivé pour empêcher l'accès public anonyme aux conteneurs de blobs ?",
+  "options": [
+    {
+      "key": "A",
+      "text": "Espace de noms hiérarchique"
+    },
+    {
+      "key": "B",
+      "text": "Autoriser l'accès anonyme aux blobs"
+    },
+    {
+      "key": "C",
+      "text": "Suppression réversible"
+    },
+    {
+      "key": "D",
+      "text": "Transfert sécurisé requis"
+    }
+  ],
+  "correct_answer": [
+    "B"
+  ],
+  "difficulty": "easy",
+  "tags": [
+    "public-access",
+    "hardening"
+  ],
+  "category": "storage",
+  "explanation": "Désactiver « Autoriser l'accès anonyme aux blobs » bloque tout accès anonyme au niveau du conteneur, indépendamment des listes de contrôle d'accès individuelles des conteneurs.",
+  "score_weight": 1.0
+}

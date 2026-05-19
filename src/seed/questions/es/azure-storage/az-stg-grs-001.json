@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-stg-grs-001",
+  "topic": "azure-storage",
+  "language": "es",
+  "text": "¿Qué opción de redundancia del almacenamiento de blobs replica los datos entre dos regiones emparejadas?",
+  "options": [
+    {
+      "key": "A",
+      "text": "Almacenamiento con redundancia local"
+    },
+    {
+      "key": "B",
+      "text": "Almacenamiento con redundancia de zona"
+    },
+    {
+      "key": "C",
+      "text": "Almacenamiento con redundancia geográfica"
+    },
+    {
+      "key": "D",
+      "text": "Blobs en bloques Premium"
+    }
+  ],
+  "correct_answer": [
+    "C"
+  ],
+  "difficulty": "easy",
+  "tags": [
+    "redundancy",
+    "grs"
+  ],
+  "category": "storage",
+  "explanation": "El almacenamiento con redundancia geográfica (GRS) replica los datos de forma sincrónica dentro de la región principal y asincrónica en una región emparejada secundaria; LRS permanece en un único centro de datos y ZRS permanece dentro de una sola región a través de zonas.",
+  "score_weight": 1.0
+}

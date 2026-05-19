@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-sec-rbac-003",
+  "topic": "azure-security",
+  "language": "en",
+  "text": "What principle should guide Azure role assignments?",
+  "options": [
+    {
+      "key": "A",
+      "text": "Least privilege scoped to the smallest resource"
+    },
+    {
+      "key": "B",
+      "text": "Subscription Owner for everyone"
+    },
+    {
+      "key": "C",
+      "text": "Custom roles assigned at the tenant root"
+    },
+    {
+      "key": "D",
+      "text": "Reader at the management group level"
+    }
+  ],
+  "correct_answer": [
+    "A"
+  ],
+  "difficulty": "easy",
+  "tags": [
+    "rbac",
+    "least-privilege"
+  ],
+  "category": "security",
+  "explanation": "Least privilege scoped to the smallest meaningful resource (or resource group when per-resource is not possible) is the canonical Azure RBAC discipline.",
+  "score_weight": 1.0
+}

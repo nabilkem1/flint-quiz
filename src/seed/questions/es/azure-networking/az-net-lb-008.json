@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-net-lb-008",
+  "topic": "azure-networking",
+  "language": "es",
+  "text": "¿En qué capa OSI opera Azure Load Balancer?",
+  "options": [
+    {
+      "key": "A",
+      "text": "Capa 7"
+    },
+    {
+      "key": "B",
+      "text": "Capa 4"
+    },
+    {
+      "key": "C",
+      "text": "Capa 2"
+    },
+    {
+      "key": "D",
+      "text": "Capa 3"
+    }
+  ],
+  "correct_answer": [
+    "B"
+  ],
+  "difficulty": "easy",
+  "tags": [
+    "load-balancer",
+    "layer4"
+  ],
+  "category": "networking",
+  "explanation": "Azure Load Balancer es un equilibrador de carga de capa 4 (TCP/UDP). Para enrutamiento consciente de aplicaciones en la capa 7, utilice Application Gateway o Azure Front Door.",
+  "score_weight": 1.0
+}

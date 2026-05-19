@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-net-pl-009",
+  "topic": "azure-networking",
+  "language": "en",
+  "text": "Which feature provides private connectivity from a virtual network to an Azure PaaS service over the Microsoft backbone?",
+  "options": [
+    {
+      "key": "A",
+      "text": "Private Endpoint via Private Link"
+    },
+    {
+      "key": "B",
+      "text": "Service Endpoint"
+    },
+    {
+      "key": "C",
+      "text": "VPN Gateway"
+    },
+    {
+      "key": "D",
+      "text": "ExpressRoute Global Reach"
+    }
+  ],
+  "correct_answer": [
+    "A"
+  ],
+  "difficulty": "medium",
+  "tags": [
+    "private-link",
+    "private-endpoint"
+  ],
+  "category": "networking",
+  "explanation": "Private Endpoints expose a PaaS service to a VNet via a private IP address and traverse the Microsoft backbone exclusively; Service Endpoints route over the Azure network but keep the public endpoint.",
+  "score_weight": 1.0
+}

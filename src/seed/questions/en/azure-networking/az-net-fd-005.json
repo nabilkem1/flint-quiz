@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-net-fd-005",
+  "topic": "azure-networking",
+  "language": "en",
+  "text": "Which Azure service is best for global HTTPS load balancing combined with edge caching?",
+  "options": [
+    {
+      "key": "A",
+      "text": "Application Gateway"
+    },
+    {
+      "key": "B",
+      "text": "Traffic Manager"
+    },
+    {
+      "key": "C",
+      "text": "Azure Front Door"
+    },
+    {
+      "key": "D",
+      "text": "Azure Load Balancer"
+    }
+  ],
+  "correct_answer": [
+    "C"
+  ],
+  "difficulty": "medium",
+  "tags": [
+    "front-door",
+    "cdn"
+  ],
+  "category": "networking",
+  "explanation": "Azure Front Door combines global HTTPS load balancing with an integrated content delivery network and Web Application Firewall at the edge.",
+  "score_weight": 1.0
+}

@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "id": "azure-networking",
+      "default_language": "en",
+      "enabled": true,
+      "labels": {
+        "en": "Azure Networking",
+        "fr": "Mise en réseau Azure",
+        "es": "Redes en Azure"
+      }
+    },
+    {
+      "id": "azure-security",
+      "default_language": "en",
+      "enabled": true,
+      "labels": {
+        "en": "Azure Security",
+        "fr": "Sécurité Azure",
+        "es": "Seguridad en Azure"
+      }
+    },
+    {
+      "id": "azure-storage",
+      "default_language": "en",
+      "enabled": true,
+      "labels": {
+        "en": "Azure Storage",
+        "fr": "Stockage Azure",
+        "es": "Almacenamiento en Azure"
+      }
+    }
+  ]
+}

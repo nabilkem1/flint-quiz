@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-sec-mfa-007",
+  "topic": "azure-security",
+  "language": "en",
+  "text": "Which Entra ID feature enforces a second factor at sign-in?",
+  "options": [
+    {
+      "key": "A",
+      "text": "Conditional Access only"
+    },
+    {
+      "key": "B",
+      "text": "Multi-factor authentication"
+    },
+    {
+      "key": "C",
+      "text": "Identity Protection"
+    },
+    {
+      "key": "D",
+      "text": "Privileged Identity Management"
+    }
+  ],
+  "correct_answer": [
+    "B"
+  ],
+  "difficulty": "easy",
+  "tags": [
+    "mfa",
+    "entra"
+  ],
+  "category": "security",
+  "explanation": "Multi-factor authentication is the Entra feature that requires a second verification method; Conditional Access policies typically trigger MFA based on context.",
+  "score_weight": 1.0
+}

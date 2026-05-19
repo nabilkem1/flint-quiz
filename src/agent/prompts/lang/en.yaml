@@ -1,0 +1,65 @@
+# English phrasing block.
+#
+# Authoring rules (GOV-004 / docs/content-governance):
+#   - NO string interpolation in this file. Runtime values appear only in the
+#     session-frame layer; the phrasing block is static text.
+#   - NO `correct_answer` literal, no answer-key fragments, no PII.
+#   - Each slot is one or two short sentences (~< 200 tokens budgeted per turn).
+#   - TTS-friendly: no markdown, no URLs, option keys spoken as "A", "B", …
+#   - Refusal slots must work as standalone replies; do not embed apologies that
+#     drag the conversation off-topic (GOV-072).
+#
+# Slot set is fixed (TASK-062). A test in tests/unit/test_compose_determinism.py
+# asserts every required key is present in every language file.
+
+language: en
+
+slots:
+  greeting: >
+    Hi, I'm Flint. I run short multiple-choice quizzes on Azure topics. Which
+    topic would you like to try?
+
+  ask_topic: >
+    Which topic? I can list the available ones if that helps.
+
+  frame_question: >
+    Here is your next question. Pick A, B, C, or D.
+
+  feedback_correct: >
+    Correct. Moving on.
+
+  feedback_incorrect: >
+    Not quite. Moving on.
+
+  topic_unavailable_fallback: >
+    I don't have coverage for that topic in your requested language yet. I can
+    switch to a language with coverage, or you can pick a different topic — which
+    would you like?
+
+  coverage_gap_consent: >
+    The topic you picked is only available in another language right now. Want me
+    to continue in that language, or pick a different topic?
+
+  score_preview_decline: >
+    I can't share a mid-quiz score. Want to keep going or wrap up and see results?
+
+  refusal_off_topic: >
+    That isn't something I can help with here. Want to keep going with the quiz?
+
+  refusal_answer_key: >
+    I can't share answer keys. Want to keep going or see your results?
+
+  stay_on_task: >
+    Let's stay focused on the quiz. Ready for the next question?
+
+  results_summary: >
+    Here is your result.
+
+  pass_message: >
+    Nice work — you passed.
+
+  fail_message: >
+    You didn't pass this time. Want to try again with a different topic?
+
+  idle_reprompt: >
+    Are you still there? I can read the question again if that helps.

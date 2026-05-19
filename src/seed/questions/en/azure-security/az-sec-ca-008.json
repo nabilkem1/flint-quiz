@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-sec-ca-008",
+  "topic": "azure-security",
+  "language": "en",
+  "text": "Which Entra ID capability enforces sign-in conditions based on user, device, location, and risk signals?",
+  "options": [
+    {
+      "key": "A",
+      "text": "Conditional Access policies"
+    },
+    {
+      "key": "B",
+      "text": "Identity Protection alone"
+    },
+    {
+      "key": "C",
+      "text": "Privileged Identity Management"
+    },
+    {
+      "key": "D",
+      "text": "Azure Bastion"
+    }
+  ],
+  "correct_answer": [
+    "A"
+  ],
+  "difficulty": "medium",
+  "tags": [
+    "conditional-access",
+    "entra"
+  ],
+  "category": "security",
+  "explanation": "Conditional Access policies combine signals from user, device, location, and risk to grant, block, or require additional controls like multi-factor authentication.",
+  "score_weight": 1.0
+}

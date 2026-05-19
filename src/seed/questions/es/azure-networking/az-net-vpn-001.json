@@ -1,0 +1,36 @@
+{
+  "logical_id": "az-net-vpn-001",
+  "topic": "azure-networking",
+  "language": "es",
+  "text": "¿Qué servicio de Azure proporciona una conexión VPN sitio a sitio cifrada hacia una red virtual?",
+  "options": [
+    {
+      "key": "A",
+      "text": "Application Gateway"
+    },
+    {
+      "key": "B",
+      "text": "Puerta de enlace VPN"
+    },
+    {
+      "key": "C",
+      "text": "Azure Firewall"
+    },
+    {
+      "key": "D",
+      "text": "Front Door"
+    }
+  ],
+  "correct_answer": [
+    "B"
+  ],
+  "difficulty": "medium",
+  "tags": [
+    "vpn",
+    "ipsec",
+    "gateway"
+  ],
+  "category": "networking",
+  "explanation": "La puerta de enlace VPN proporciona conectividad cifrada sitio a sitio y punto a sitio hacia una red virtual de Azure mediante IPsec/IKE.",
+  "score_weight": 1.0
+}

@@ -1,0 +1,24 @@
+{
+  "name": "topic-synonyms-fr",
+  "format": "solr",
+  "synonyms": [
+    "vpn, passerelle vpn, ipsec, site à site, point à site",
+    "expressroute, connexion privée, liaison dédiée",
+    "nsg, groupe de sécurité réseau, groupe de sécurité",
+    "équilibreur de charge, répartiteur de charge",
+    "point de terminaison privé, liaison privée, private link",
+    "vnet, réseau virtuel",
+    "rbac, contrôle d'accès basé sur les rôles",
+    "key vault, coffre de clés, stockage de secrets",
+    "identité managée, identité gérée, msi, uami",
+    "entra, entra id, azure ad, annuaire azure",
+    "blob, objet, stockage d'objets",
+    "suppression réversible, suppression douce",
+    "niveau chaud, niveau d'accès chaud",
+    "niveau froid, niveau d'accès froid",
+    "niveau archive, niveau d'archivage",
+    "redondance interrégion, grs, géo-redondant",
+    "lrs, redondance locale, redondant localement",
+    "zrs, redondance entre zones"
+  ]
+}

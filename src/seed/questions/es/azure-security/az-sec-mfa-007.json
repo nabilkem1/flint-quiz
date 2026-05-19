@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-sec-mfa-007",
+  "topic": "azure-security",
+  "language": "es",
+  "text": "¿Qué característica de Entra ID exige un segundo factor en el inicio de sesión?",
+  "options": [
+    {
+      "key": "A",
+      "text": "Solo Acceso condicional"
+    },
+    {
+      "key": "B",
+      "text": "Autenticación multifactor"
+    },
+    {
+      "key": "C",
+      "text": "Identity Protection"
+    },
+    {
+      "key": "D",
+      "text": "Privileged Identity Management"
+    }
+  ],
+  "correct_answer": [
+    "B"
+  ],
+  "difficulty": "easy",
+  "tags": [
+    "mfa",
+    "entra"
+  ],
+  "category": "security",
+  "explanation": "La autenticación multifactor es la característica de Entra que requiere un segundo método de verificación; las directivas de Acceso condicional suelen desencadenar la MFA según el contexto.",
+  "score_weight": 1.0
+}

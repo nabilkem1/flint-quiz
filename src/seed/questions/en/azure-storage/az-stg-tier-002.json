@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-stg-tier-002",
+  "topic": "azure-storage",
+  "language": "en",
+  "text": "Which Blob access tier minimizes storage cost for data that is rarely accessed and tolerates hours of retrieval latency?",
+  "options": [
+    {
+      "key": "A",
+      "text": "Hot"
+    },
+    {
+      "key": "B",
+      "text": "Cool"
+    },
+    {
+      "key": "C",
+      "text": "Cold"
+    },
+    {
+      "key": "D",
+      "text": "Archive"
+    }
+  ],
+  "correct_answer": [
+    "D"
+  ],
+  "difficulty": "medium",
+  "tags": [
+    "tier",
+    "archive"
+  ],
+  "category": "storage",
+  "explanation": "The Archive tier offers the lowest storage cost for blobs with retrieval latency of up to several hours via a rehydrate operation; Cold and Cool tiers are warmer.",
+  "score_weight": 1.0
+}

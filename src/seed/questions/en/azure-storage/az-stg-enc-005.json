@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-stg-enc-005",
+  "topic": "azure-storage",
+  "language": "en",
+  "text": "How is data in an Azure Storage account encrypted at rest by default?",
+  "options": [
+    {
+      "key": "A",
+      "text": "It must be encrypted by the application before upload"
+    },
+    {
+      "key": "B",
+      "text": "Automatically with platform-managed keys"
+    },
+    {
+      "key": "C",
+      "text": "Only when a customer-managed key is configured"
+    },
+    {
+      "key": "D",
+      "text": "Only for premium accounts"
+    }
+  ],
+  "correct_answer": [
+    "B"
+  ],
+  "difficulty": "easy",
+  "tags": [
+    "encryption",
+    "rest"
+  ],
+  "category": "storage",
+  "explanation": "Storage Service Encryption is on by default with platform-managed keys; customers may optionally configure customer-managed keys in Key Vault for additional control.",
+  "score_weight": 1.0
+}

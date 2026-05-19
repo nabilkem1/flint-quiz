@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-sec-ca-008",
+  "topic": "azure-security",
+  "language": "fr",
+  "text": "Quelle fonctionnalité d'Entra ID applique des conditions de connexion basées sur l'utilisateur, l'appareil, la localisation et les signaux de risque ?",
+  "options": [
+    {
+      "key": "A",
+      "text": "Stratégies d'accès conditionnel"
+    },
+    {
+      "key": "B",
+      "text": "Identity Protection seule"
+    },
+    {
+      "key": "C",
+      "text": "Privileged Identity Management"
+    },
+    {
+      "key": "D",
+      "text": "Azure Bastion"
+    }
+  ],
+  "correct_answer": [
+    "A"
+  ],
+  "difficulty": "medium",
+  "tags": [
+    "conditional-access",
+    "entra"
+  ],
+  "category": "security",
+  "explanation": "Les stratégies d'accès conditionnel combinent les signaux d'utilisateur, d'appareil, de localisation et de risque pour autoriser, bloquer ou exiger des contrôles supplémentaires comme l'authentification multifacteur.",
+  "score_weight": 1.0
+}

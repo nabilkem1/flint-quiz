@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-stg-soft-003",
+  "topic": "azure-storage",
+  "language": "fr",
+  "text": "Quelle fonctionnalité du stockage Blob permet de récupérer des blobs supprimés par erreur pendant une période de rétention ?",
+  "options": [
+    {
+      "key": "A",
+      "text": "Gestion du cycle de vie"
+    },
+    {
+      "key": "B",
+      "text": "Suppression réversible"
+    },
+    {
+      "key": "C",
+      "text": "Stratégie d'immuabilité"
+    },
+    {
+      "key": "D",
+      "text": "Gestion des versions"
+    }
+  ],
+  "correct_answer": [
+    "B"
+  ],
+  "difficulty": "easy",
+  "tags": [
+    "soft-delete",
+    "recovery"
+  ],
+  "category": "storage",
+  "explanation": "La suppression réversible conserve les blobs et instantanés supprimés pendant une période configurable pendant laquelle ils peuvent être restaurés ; la gestion des versions préserve les versions antérieures lors d'un écrasement, ce qui est complémentaire.",
+  "score_weight": 1.0
+}

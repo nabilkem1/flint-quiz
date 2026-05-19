@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-net-nsg-003",
+  "topic": "azure-networking",
+  "language": "es",
+  "text": "¿En qué capa puede una regla de un Grupo de seguridad de red filtrar el tráfico?",
+  "options": [
+    {
+      "key": "A",
+      "text": "Solo la capa de aplicación"
+    },
+    {
+      "key": "B",
+      "text": "Capa 3 y capa 4"
+    },
+    {
+      "key": "C",
+      "text": "Capa 2"
+    },
+    {
+      "key": "D",
+      "text": "Solo la capa 7"
+    }
+  ],
+  "correct_answer": [
+    "B"
+  ],
+  "difficulty": "easy",
+  "tags": [
+    "nsg",
+    "firewall"
+  ],
+  "category": "networking",
+  "explanation": "Los Grupos de seguridad de red filtran en las capas 3 y 4: por dirección IP de origen o destino, puerto y protocolo. La inspección de capa 7 requiere Application Gateway con WAF o Azure Firewall.",
+  "score_weight": 1.0
+}

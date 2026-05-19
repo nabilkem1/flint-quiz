@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-sec-kv-001",
+  "topic": "azure-security",
+  "language": "en",
+  "text": "Where should application secrets such as database passwords be stored in Azure?",
+  "options": [
+    {
+      "key": "A",
+      "text": "In an environment variable on the host"
+    },
+    {
+      "key": "B",
+      "text": "In a configuration file checked into source control"
+    },
+    {
+      "key": "C",
+      "text": "In Azure Key Vault, accessed via a managed identity"
+    },
+    {
+      "key": "D",
+      "text": "In the application code, encoded as base sixty-four"
+    }
+  ],
+  "correct_answer": [
+    "C"
+  ],
+  "difficulty": "easy",
+  "tags": [
+    "key-vault",
+    "secrets"
+  ],
+  "category": "security",
+  "explanation": "Azure Key Vault stores secrets, keys, and certificates with audited access, accessed at runtime via a managed identity — no connection strings in code or config.",
+  "score_weight": 1.0
+}

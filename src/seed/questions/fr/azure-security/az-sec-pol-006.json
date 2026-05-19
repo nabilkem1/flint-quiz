@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-sec-pol-006",
+  "topic": "azure-security",
+  "language": "fr",
+  "text": "Quel service Azure applique les règles de gouvernance au moment du déploiement et à l'exécution sur les abonnements ?",
+  "options": [
+    {
+      "key": "A",
+      "text": "Microsoft Sentinel"
+    },
+    {
+      "key": "B",
+      "text": "Azure Blueprints"
+    },
+    {
+      "key": "C",
+      "text": "Azure Policy"
+    },
+    {
+      "key": "D",
+      "text": "Azure Monitor"
+    }
+  ],
+  "correct_answer": [
+    "C"
+  ],
+  "difficulty": "medium",
+  "tags": [
+    "policy",
+    "governance"
+  ],
+  "category": "security",
+  "explanation": "Azure Policy évalue la conformité des ressources avec des règles configurables et peut refuser les déploiements non conformes ou corriger automatiquement la dérive.",
+  "score_weight": 1.0
+}

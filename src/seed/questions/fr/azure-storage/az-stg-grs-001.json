@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-stg-grs-001",
+  "topic": "azure-storage",
+  "language": "fr",
+  "text": "Quelle option de redondance du stockage Blob réplique les données sur deux régions appairées ?",
+  "options": [
+    {
+      "key": "A",
+      "text": "Stockage localement redondant"
+    },
+    {
+      "key": "B",
+      "text": "Stockage redondant interzone"
+    },
+    {
+      "key": "C",
+      "text": "Stockage géo-redondant"
+    },
+    {
+      "key": "D",
+      "text": "Blobs de blocs Premium"
+    }
+  ],
+  "correct_answer": [
+    "C"
+  ],
+  "difficulty": "easy",
+  "tags": [
+    "redundancy",
+    "grs"
+  ],
+  "category": "storage",
+  "explanation": "Le stockage géo-redondant (GRS) réplique les données de façon synchrone dans la région principale et asynchrone vers une région appairée secondaire ; LRS reste dans un seul centre de données et ZRS reste dans une seule région sur plusieurs zones.",
+  "score_weight": 1.0
+}

@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-sec-ddos-009",
+  "topic": "azure-security",
+  "language": "en",
+  "text": "Which Azure service mitigates volumetric, protocol, and resource-exhaustion attacks against public endpoints?",
+  "options": [
+    {
+      "key": "A",
+      "text": "Azure DDoS Protection"
+    },
+    {
+      "key": "B",
+      "text": "Azure Firewall"
+    },
+    {
+      "key": "C",
+      "text": "Web Application Firewall on Application Gateway"
+    },
+    {
+      "key": "D",
+      "text": "Azure Bastion"
+    }
+  ],
+  "correct_answer": [
+    "A"
+  ],
+  "difficulty": "medium",
+  "tags": [
+    "ddos",
+    "protection"
+  ],
+  "category": "security",
+  "explanation": "Azure DDoS Protection (Network and IP variants) mitigates large-scale volumetric and protocol attacks; WAF complements it at the application layer.",
+  "score_weight": 1.0
+}

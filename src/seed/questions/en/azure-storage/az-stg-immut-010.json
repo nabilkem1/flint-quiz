@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-stg-immut-010",
+  "topic": "azure-storage",
+  "language": "en",
+  "text": "Which Blob Storage feature enforces a write-once-read-many retention period for compliance scenarios?",
+  "options": [
+    {
+      "key": "A",
+      "text": "Versioning"
+    },
+    {
+      "key": "B",
+      "text": "Time-based immutability policy"
+    },
+    {
+      "key": "C",
+      "text": "Soft delete"
+    },
+    {
+      "key": "D",
+      "text": "Lifecycle management"
+    }
+  ],
+  "correct_answer": [
+    "B"
+  ],
+  "difficulty": "hard",
+  "tags": [
+    "immutability",
+    "wrm"
+  ],
+  "category": "storage",
+  "explanation": "A time-based immutability policy prevents modification or deletion of a blob until the configured retention interval elapses, supporting WORM compliance scenarios.",
+  "score_weight": 1.0
+}

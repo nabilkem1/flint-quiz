@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-net-fw-006",
+  "topic": "azure-networking",
+  "language": "fr",
+  "text": "Quel service Azure est un pare-feu avec état prenant en charge le filtrage par nom de domaine pleinement qualifié ?",
+  "options": [
+    {
+      "key": "A",
+      "text": "Groupe de sécurité réseau"
+    },
+    {
+      "key": "B",
+      "text": "Azure Firewall"
+    },
+    {
+      "key": "C",
+      "text": "Application Gateway"
+    },
+    {
+      "key": "D",
+      "text": "Azure Bastion"
+    }
+  ],
+  "correct_answer": [
+    "B"
+  ],
+  "difficulty": "medium",
+  "tags": [
+    "firewall",
+    "fqdn"
+  ],
+  "category": "networking",
+  "explanation": "Azure Firewall est un service de pare-feu géré avec état qui prend en charge les balises FQDN, les règles applicatives et les renseignements sur les menaces ; les NSG sont des règles sans état de couches 3 et 4.",
+  "score_weight": 1.0
+}

@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-sec-ddos-009",
+  "topic": "azure-security",
+  "language": "fr",
+  "text": "Quel service Azure atténue les attaques volumétriques, protocolaires et d'épuisement de ressources contre les points de terminaison publics ?",
+  "options": [
+    {
+      "key": "A",
+      "text": "Azure DDoS Protection"
+    },
+    {
+      "key": "B",
+      "text": "Azure Firewall"
+    },
+    {
+      "key": "C",
+      "text": "Pare-feu d'applications web sur Application Gateway"
+    },
+    {
+      "key": "D",
+      "text": "Azure Bastion"
+    }
+  ],
+  "correct_answer": [
+    "A"
+  ],
+  "difficulty": "medium",
+  "tags": [
+    "ddos",
+    "protection"
+  ],
+  "category": "security",
+  "explanation": "Azure DDoS Protection (Network et IP) atténue les attaques volumétriques et protocolaires à grande échelle ; le WAF le complète au niveau applicatif.",
+  "score_weight": 1.0
+}

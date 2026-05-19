@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-sec-def-004",
+  "topic": "azure-security",
+  "language": "es",
+  "text": "¿Qué servicio de Azure proporciona protección de cargas de trabajo en la nube y administración de la postura?",
+  "options": [
+    {
+      "key": "A",
+      "text": "Azure Sentinel"
+    },
+    {
+      "key": "B",
+      "text": "Microsoft Defender for Cloud"
+    },
+    {
+      "key": "C",
+      "text": "Azure Policy"
+    },
+    {
+      "key": "D",
+      "text": "Azure Monitor"
+    }
+  ],
+  "correct_answer": [
+    "B"
+  ],
+  "difficulty": "medium",
+  "tags": [
+    "defender",
+    "cwp"
+  ],
+  "category": "security",
+  "explanation": "Microsoft Defender for Cloud combina la administración de la postura de seguridad en la nube con la protección de cargas de trabajo en servidores, contenedores, bases de datos y más.",
+  "score_weight": 1.0
+}

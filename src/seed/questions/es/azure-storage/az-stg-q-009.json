@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-stg-q-009",
+  "topic": "azure-storage",
+  "language": "es",
+  "text": "¿Qué servicio de Azure Storage almacena mensajes asincrónicos de hasta 64 kilobytes cada uno?",
+  "options": [
+    {
+      "key": "A",
+      "text": "Service Bus"
+    },
+    {
+      "key": "B",
+      "text": "Colas de almacenamiento"
+    },
+    {
+      "key": "C",
+      "text": "Event Hubs"
+    },
+    {
+      "key": "D",
+      "text": "Event Grid"
+    }
+  ],
+  "correct_answer": [
+    "B"
+  ],
+  "difficulty": "easy",
+  "tags": [
+    "queues",
+    "messaging"
+  ],
+  "category": "storage",
+  "explanation": "Las colas de Azure Storage almacenan mensajes de hasta 64 KB y se facturan como parte de la cuenta de almacenamiento; Service Bus es un servicio de mensajería distinto y más completo.",
+  "score_weight": 1.0
+}

@@ -1,0 +1,45 @@
+# Files NOT to ship inside a container image. Trim the build context so
+# the image stays small AND tests / docs / secrets cannot ride along.
+
+# Test surface
+tests/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+htmlcov/
+
+# Docs / specs / planning artefacts — not needed at runtime
+docs/
+specs/
+adr/
+tasks/
+.specify/
+.claude/
+
+# Local dev surface
+.azure/
+.git/
+.github/
+.gitignore
+.editorconfig
+Makefile
+tools/
+
+# Python / build artefacts
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+dist/
+build/
+*.egg-info/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Misc
+*.md
+!README.md

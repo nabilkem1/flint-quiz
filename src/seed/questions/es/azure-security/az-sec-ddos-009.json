@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-sec-ddos-009",
+  "topic": "azure-security",
+  "language": "es",
+  "text": "¿Qué servicio de Azure mitiga ataques volumétricos, de protocolo y de agotamiento de recursos contra puntos de conexión públicos?",
+  "options": [
+    {
+      "key": "A",
+      "text": "Azure DDoS Protection"
+    },
+    {
+      "key": "B",
+      "text": "Azure Firewall"
+    },
+    {
+      "key": "C",
+      "text": "Firewall de aplicaciones web en Application Gateway"
+    },
+    {
+      "key": "D",
+      "text": "Azure Bastion"
+    }
+  ],
+  "correct_answer": [
+    "A"
+  ],
+  "difficulty": "medium",
+  "tags": [
+    "ddos",
+    "protection"
+  ],
+  "category": "security",
+  "explanation": "Azure DDoS Protection (Network e IP) mitiga ataques volumétricos y de protocolo a gran escala; el WAF lo complementa en la capa de aplicación.",
+  "score_weight": 1.0
+}

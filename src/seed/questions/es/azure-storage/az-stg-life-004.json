@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-stg-life-004",
+  "topic": "azure-storage",
+  "language": "es",
+  "text": "¿Qué característica mueve automáticamente los blobs entre niveles de acceso según su antigüedad?",
+  "options": [
+    {
+      "key": "A",
+      "text": "Directivas de administración del ciclo de vida"
+    },
+    {
+      "key": "B",
+      "text": "Eliminación temporal"
+    },
+    {
+      "key": "C",
+      "text": "Control de versiones"
+    },
+    {
+      "key": "D",
+      "text": "Replicación de objetos"
+    }
+  ],
+  "correct_answer": [
+    "A"
+  ],
+  "difficulty": "medium",
+  "tags": [
+    "lifecycle",
+    "tiering"
+  ],
+  "category": "storage",
+  "explanation": "Las directivas de administración del ciclo de vida definen reglas que trasladan los blobs a niveles más fríos o los eliminan según su antigüedad y patrones de acceso.",
+  "score_weight": 1.0
+}

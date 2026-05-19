@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-stg-vers-007",
+  "topic": "azure-storage",
+  "language": "fr",
+  "text": "Quelle fonctionnalité du stockage Blob conserve les versions précédentes d'un blob à chaque écrasement ?",
+  "options": [
+    {
+      "key": "A",
+      "text": "Instantanés"
+    },
+    {
+      "key": "B",
+      "text": "Gestion du cycle de vie"
+    },
+    {
+      "key": "C",
+      "text": "Gestion des versions de blob"
+    },
+    {
+      "key": "D",
+      "text": "Suppression réversible"
+    }
+  ],
+  "correct_answer": [
+    "C"
+  ],
+  "difficulty": "medium",
+  "tags": [
+    "versioning",
+    "history"
+  ],
+  "category": "storage",
+  "explanation": "La gestion des versions de blob crée automatiquement une version immuable à chaque écrasement ou suppression ; les instantanés sont des copies ponctuelles créées manuellement et la suppression réversible restaure les suppressions.",
+  "score_weight": 1.0
+}

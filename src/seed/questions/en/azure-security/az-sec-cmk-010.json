@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-sec-cmk-010",
+  "topic": "azure-security",
+  "language": "en",
+  "text": "What enables customer-controlled key material for encryption-at-rest of Azure resources?",
+  "options": [
+    {
+      "key": "A",
+      "text": "Storage account access keys"
+    },
+    {
+      "key": "B",
+      "text": "Microsoft-managed keys"
+    },
+    {
+      "key": "C",
+      "text": "Customer-managed keys backed by Azure Key Vault"
+    },
+    {
+      "key": "D",
+      "text": "Shared access signatures"
+    }
+  ],
+  "correct_answer": [
+    "C"
+  ],
+  "difficulty": "hard",
+  "tags": [
+    "cmk",
+    "encryption"
+  ],
+  "category": "security",
+  "explanation": "Customer-managed keys (CMK) stored in Azure Key Vault let the customer rotate and revoke the encryption-at-rest key material independently of the storing service.",
+  "score_weight": 1.0
+}

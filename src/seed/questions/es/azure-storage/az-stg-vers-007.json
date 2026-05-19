@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-stg-vers-007",
+  "topic": "azure-storage",
+  "language": "es",
+  "text": "¿Qué característica del almacenamiento de blobs conserva las versiones anteriores de un blob cada vez que se sobrescribe?",
+  "options": [
+    {
+      "key": "A",
+      "text": "Instantáneas"
+    },
+    {
+      "key": "B",
+      "text": "Administración del ciclo de vida"
+    },
+    {
+      "key": "C",
+      "text": "Control de versiones de blobs"
+    },
+    {
+      "key": "D",
+      "text": "Eliminación temporal"
+    }
+  ],
+  "correct_answer": [
+    "C"
+  ],
+  "difficulty": "medium",
+  "tags": [
+    "versioning",
+    "history"
+  ],
+  "category": "storage",
+  "explanation": "El control de versiones de blobs crea automáticamente una versión inmutable en cada sobrescritura o eliminación; las instantáneas son copias puntuales creadas manualmente y la eliminación temporal restaura los blobs eliminados.",
+  "score_weight": 1.0
+}

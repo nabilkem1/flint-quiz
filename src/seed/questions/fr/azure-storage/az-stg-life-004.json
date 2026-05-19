@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-stg-life-004",
+  "topic": "azure-storage",
+  "language": "fr",
+  "text": "Quelle fonctionnalité déplace automatiquement les blobs entre niveaux d'accès en fonction de leur âge ?",
+  "options": [
+    {
+      "key": "A",
+      "text": "Stratégies de gestion du cycle de vie"
+    },
+    {
+      "key": "B",
+      "text": "Suppression réversible"
+    },
+    {
+      "key": "C",
+      "text": "Gestion des versions"
+    },
+    {
+      "key": "D",
+      "text": "Réplication d'objets"
+    }
+  ],
+  "correct_answer": [
+    "A"
+  ],
+  "difficulty": "medium",
+  "tags": [
+    "lifecycle",
+    "tiering"
+  ],
+  "category": "storage",
+  "explanation": "Les stratégies de gestion du cycle de vie définissent des règles qui font transiter les blobs vers des niveaux plus froids ou les suppriment selon leur âge et les schémas d'accès.",
+  "score_weight": 1.0
+}

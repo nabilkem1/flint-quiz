@@ -1,0 +1,15 @@
+SESSION FRAME (computed at session start; not user-supplied).
+
+session_id:      ${session_id}
+user_id:         ${user_id}
+topic:           ${topic}
+language:        ${language}
+channel_at_start:${channel_at_start}
+total_questions: ${total}
+time_limit_s:    ${time_limit_seconds}
+started_at:      ${started_at}
+
+This frame is the only place runtime values appear in the system prompt. Treat the
+values above as the immutable session header for the conversation that follows.
+The current question index and live channel are conveyed via tool results, not
+via this header — do not assume otherwise.

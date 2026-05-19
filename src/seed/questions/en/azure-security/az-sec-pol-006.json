@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-sec-pol-006",
+  "topic": "azure-security",
+  "language": "en",
+  "text": "Which Azure service enforces deployment-time and runtime governance rules across subscriptions?",
+  "options": [
+    {
+      "key": "A",
+      "text": "Microsoft Sentinel"
+    },
+    {
+      "key": "B",
+      "text": "Azure Blueprints"
+    },
+    {
+      "key": "C",
+      "text": "Azure Policy"
+    },
+    {
+      "key": "D",
+      "text": "Azure Monitor"
+    }
+  ],
+  "correct_answer": [
+    "C"
+  ],
+  "difficulty": "medium",
+  "tags": [
+    "policy",
+    "governance"
+  ],
+  "category": "security",
+  "explanation": "Azure Policy evaluates resources for compliance with configurable rules and can deny non-compliant deployments or auto-remediate drift.",
+  "score_weight": 1.0
+}

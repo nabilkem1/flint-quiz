@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-stg-fs-008",
+  "topic": "azure-storage",
+  "language": "es",
+  "text": "¿Qué servicio de Azure Storage proporciona recursos compartidos de archivos SMB y NFS totalmente administrados?",
+  "options": [
+    {
+      "key": "A",
+      "text": "Azure Files"
+    },
+    {
+      "key": "B",
+      "text": "Azure Blob Storage"
+    },
+    {
+      "key": "C",
+      "text": "Colas de Azure"
+    },
+    {
+      "key": "D",
+      "text": "Almacenamiento de tablas de Azure"
+    }
+  ],
+  "correct_answer": [
+    "A"
+  ],
+  "difficulty": "easy",
+  "tags": [
+    "files",
+    "smb"
+  ],
+  "category": "storage",
+  "explanation": "Azure Files proporciona recursos compartidos de archivos administrados accesibles mediante los protocolos SMB y NFS; Blob Storage expone almacenamiento de objetos y las colas y tablas exponen otras primitivas.",
+  "score_weight": 1.0
+}

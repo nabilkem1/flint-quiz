@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-stg-q-009",
+  "topic": "azure-storage",
+  "language": "fr",
+  "text": "Quel service Azure Storage stocke des messages asynchrones jusqu'à 64 kilo-octets chacun ?",
+  "options": [
+    {
+      "key": "A",
+      "text": "Service Bus"
+    },
+    {
+      "key": "B",
+      "text": "Files d'attente de stockage"
+    },
+    {
+      "key": "C",
+      "text": "Event Hubs"
+    },
+    {
+      "key": "D",
+      "text": "Event Grid"
+    }
+  ],
+  "correct_answer": [
+    "B"
+  ],
+  "difficulty": "easy",
+  "tags": [
+    "queues",
+    "messaging"
+  ],
+  "category": "storage",
+  "explanation": "Les files d'attente Azure Storage stockent des messages jusqu'à 64 Ko et sont facturées dans le compte de stockage ; Service Bus est un service de messagerie distinct, plus riche fonctionnellement.",
+  "score_weight": 1.0
+}

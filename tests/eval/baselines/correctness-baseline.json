@@ -1,0 +1,11 @@
+{
+  "_meta": {
+    "purpose": "Per-language correctness baseline for TEST-011 / TASK-167.",
+    "tolerance_percentage_points": 5.0,
+    "re_baseline_cadence": "yearly OR on model change with explicit review",
+    "review_owners": ["security", "content"]
+  },
+  "en": 100.0,
+  "fr": 100.0,
+  "es": 100.0
+}

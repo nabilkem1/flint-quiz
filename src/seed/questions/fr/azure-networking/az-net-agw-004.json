@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-net-agw-004",
+  "topic": "azure-networking",
+  "language": "fr",
+  "text": "Quel service Azure fournit un équilibrage de charge de couche 7 avec une option de pare-feu applicatif ?",
+  "options": [
+    {
+      "key": "A",
+      "text": "Application Gateway"
+    },
+    {
+      "key": "B",
+      "text": "Azure Load Balancer"
+    },
+    {
+      "key": "C",
+      "text": "Traffic Manager"
+    },
+    {
+      "key": "D",
+      "text": "Passerelle VPN"
+    }
+  ],
+  "correct_answer": [
+    "A"
+  ],
+  "difficulty": "medium",
+  "tags": [
+    "application-gateway",
+    "waf"
+  ],
+  "category": "networking",
+  "explanation": "Application Gateway est un équilibreur de charge de couche 7 avec un niveau Web Application Firewall (WAF) intégré ; Azure Load Balancer fonctionne en couche 4.",
+  "score_weight": 1.0
+}

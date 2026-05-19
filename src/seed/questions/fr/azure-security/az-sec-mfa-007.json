@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-sec-mfa-007",
+  "topic": "azure-security",
+  "language": "fr",
+  "text": "Quelle fonctionnalité d'Entra ID impose un second facteur à la connexion ?",
+  "options": [
+    {
+      "key": "A",
+      "text": "Accès conditionnel uniquement"
+    },
+    {
+      "key": "B",
+      "text": "Authentification multifacteur"
+    },
+    {
+      "key": "C",
+      "text": "Identity Protection"
+    },
+    {
+      "key": "D",
+      "text": "Privileged Identity Management"
+    }
+  ],
+  "correct_answer": [
+    "B"
+  ],
+  "difficulty": "easy",
+  "tags": [
+    "mfa",
+    "entra"
+  ],
+  "category": "security",
+  "explanation": "L'authentification multifacteur est la fonctionnalité Entra qui exige une seconde méthode de vérification ; les stratégies d'accès conditionnel déclenchent généralement la MFA en fonction du contexte.",
+  "score_weight": 1.0
+}

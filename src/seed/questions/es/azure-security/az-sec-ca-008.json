@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-sec-ca-008",
+  "topic": "azure-security",
+  "language": "es",
+  "text": "¿Qué capacidad de Entra ID aplica condiciones de inicio de sesión basadas en usuario, dispositivo, ubicación y señales de riesgo?",
+  "options": [
+    {
+      "key": "A",
+      "text": "Directivas de acceso condicional"
+    },
+    {
+      "key": "B",
+      "text": "Solo Identity Protection"
+    },
+    {
+      "key": "C",
+      "text": "Privileged Identity Management"
+    },
+    {
+      "key": "D",
+      "text": "Azure Bastion"
+    }
+  ],
+  "correct_answer": [
+    "A"
+  ],
+  "difficulty": "medium",
+  "tags": [
+    "conditional-access",
+    "entra"
+  ],
+  "category": "security",
+  "explanation": "Las directivas de acceso condicional combinan señales de usuario, dispositivo, ubicación y riesgo para conceder, bloquear o requerir controles adicionales como la autenticación multifactor.",
+  "score_weight": 1.0
+}

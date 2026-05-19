@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-net-lb-008",
+  "topic": "azure-networking",
+  "language": "fr",
+  "text": "À quelle couche OSI fonctionne Azure Load Balancer ?",
+  "options": [
+    {
+      "key": "A",
+      "text": "Couche 7"
+    },
+    {
+      "key": "B",
+      "text": "Couche 4"
+    },
+    {
+      "key": "C",
+      "text": "Couche 2"
+    },
+    {
+      "key": "D",
+      "text": "Couche 3"
+    }
+  ],
+  "correct_answer": [
+    "B"
+  ],
+  "difficulty": "easy",
+  "tags": [
+    "load-balancer",
+    "layer4"
+  ],
+  "category": "networking",
+  "explanation": "Azure Load Balancer est un équilibreur de charge de couche 4 (TCP/UDP). Pour un routage applicatif de couche 7, utilisez Application Gateway ou Azure Front Door.",
+  "score_weight": 1.0
+}

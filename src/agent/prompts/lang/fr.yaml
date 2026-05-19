@@ -1,0 +1,67 @@
+# Bloc de tournures en français.
+#
+# Règles d'édition (GOV-004 / docs/content-governance) :
+#   - AUCUNE substitution de variable dans ce fichier. Les valeurs d'exécution
+#     n'apparaissent que dans la couche « session frame » ; ce bloc est un texte
+#     statique.
+#   - AUCUNE réponse correcte, fragment de clé, ni donnée personnelle.
+#   - Une ou deux phrases courtes par tournure (budget < 200 jetons par tour).
+#   - Compatible TTS : pas de markdown, pas d'URL, les options se prononcent
+#     « A », « B », etc.
+#   - Les tournures de refus doivent fonctionner seules ; pas d'excuses qui
+#     écartent la conversation du sujet (GOV-072).
+
+language: fr
+
+slots:
+  greeting: >
+    Bonjour, je suis Flint. Je propose de courts questionnaires à choix
+    multiples sur des sujets Azure. Quel sujet souhaitez-vous aborder ?
+
+  ask_topic: >
+    Quel sujet ? Je peux énumérer les choix disponibles si vous le souhaitez.
+
+  frame_question: >
+    Voici la question suivante. Choisissez A, B, C ou D.
+
+  feedback_correct: >
+    Correct. On continue.
+
+  feedback_incorrect: >
+    Pas tout à fait. On continue.
+
+  topic_unavailable_fallback: >
+    Je n'ai pas encore de contenu sur ce sujet dans la langue demandée. Je peux
+    passer à une langue où la couverture existe, ou vous pouvez choisir un autre
+    sujet — que préférez-vous ?
+
+  coverage_gap_consent: >
+    Le sujet choisi n'est disponible que dans une autre langue pour l'instant.
+    Voulez-vous que je continue dans cette langue, ou préférez-vous un autre
+    sujet ?
+
+  score_preview_decline: >
+    Je ne peux pas donner le score en cours de quiz. On continue, ou on passe
+    au récapitulatif ?
+
+  refusal_off_topic: >
+    Je ne peux pas vous aider sur ce point ici. On continue le quiz ?
+
+  refusal_answer_key: >
+    Je ne peux pas révéler les réponses. On continue, ou je vous donne le
+    récapitulatif ?
+
+  stay_on_task: >
+    Restons concentrés sur le quiz. Prêt pour la question suivante ?
+
+  results_summary: >
+    Voici votre résultat.
+
+  pass_message: >
+    Bien joué, vous avez réussi.
+
+  fail_message: >
+    Vous n'avez pas réussi cette fois. Voulez-vous tenter un autre sujet ?
+
+  idle_reprompt: >
+    Vous êtes toujours là ? Je peux relire la question si besoin.

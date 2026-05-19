@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-sec-kv-001",
+  "topic": "azure-security",
+  "language": "es",
+  "text": "¿Dónde deben almacenarse los secretos de la aplicación, como las contraseñas de base de datos, en Azure?",
+  "options": [
+    {
+      "key": "A",
+      "text": "En una variable de entorno del host"
+    },
+    {
+      "key": "B",
+      "text": "En un archivo de configuración versionado"
+    },
+    {
+      "key": "C",
+      "text": "En Azure Key Vault, accedido mediante una identidad administrada"
+    },
+    {
+      "key": "D",
+      "text": "En el código de la aplicación, codificado en base sesenta y cuatro"
+    }
+  ],
+  "correct_answer": [
+    "C"
+  ],
+  "difficulty": "easy",
+  "tags": [
+    "key-vault",
+    "secrets"
+  ],
+  "category": "security",
+  "explanation": "Azure Key Vault almacena secretos, claves y certificados con acceso auditado, accedidos en tiempo de ejecución mediante una identidad administrada — sin cadenas de conexión en el código ni en la configuración.",
+  "score_weight": 1.0
+}

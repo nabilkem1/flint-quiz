@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-net-dns-007",
+  "topic": "azure-networking",
+  "language": "en",
+  "text": "Which feature resolves names for resources inside an Azure virtual network without using public DNS?",
+  "options": [
+    {
+      "key": "A",
+      "text": "Azure Public DNS"
+    },
+    {
+      "key": "B",
+      "text": "Azure DNS zone"
+    },
+    {
+      "key": "C",
+      "text": "Azure Private DNS zone"
+    },
+    {
+      "key": "D",
+      "text": "Traffic Manager"
+    }
+  ],
+  "correct_answer": [
+    "C"
+  ],
+  "difficulty": "easy",
+  "tags": [
+    "dns",
+    "private-dns"
+  ],
+  "category": "networking",
+  "explanation": "Azure Private DNS zones provide name resolution for resources within a virtual network without exposing the records publicly.",
+  "score_weight": 1.0
+}

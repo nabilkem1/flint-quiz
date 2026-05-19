@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-net-vnet-010",
+  "topic": "azure-networking",
+  "language": "fr",
+  "text": "Lequel des intervalles d'adresses suivants est réservé à un usage IPv4 privé selon la RFC 1918 ?",
+  "options": [
+    {
+      "key": "A",
+      "text": "168.192.0.0/16"
+    },
+    {
+      "key": "B",
+      "text": "11.0.0.0/8"
+    },
+    {
+      "key": "C",
+      "text": "172.32.0.0/12"
+    },
+    {
+      "key": "D",
+      "text": "10.0.0.0/8"
+    }
+  ],
+  "correct_answer": [
+    "D"
+  ],
+  "difficulty": "easy",
+  "tags": [
+    "vnet",
+    "rfc1918"
+  ],
+  "category": "networking",
+  "explanation": "La RFC 1918 réserve 10.0.0.0/8, 172.16.0.0/12 et 192.168.0.0/16 pour les réseaux privés. Les réseaux virtuels Azure utilisent généralement l'un de ces blocs.",
+  "score_weight": 1.0
+}

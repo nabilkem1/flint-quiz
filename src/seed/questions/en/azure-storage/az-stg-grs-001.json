@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-stg-grs-001",
+  "topic": "azure-storage",
+  "language": "en",
+  "text": "Which Blob Storage redundancy option replicates data across two paired regions?",
+  "options": [
+    {
+      "key": "A",
+      "text": "Locally redundant storage"
+    },
+    {
+      "key": "B",
+      "text": "Zone-redundant storage"
+    },
+    {
+      "key": "C",
+      "text": "Geo-redundant storage"
+    },
+    {
+      "key": "D",
+      "text": "Premium block blobs"
+    }
+  ],
+  "correct_answer": [
+    "C"
+  ],
+  "difficulty": "easy",
+  "tags": [
+    "redundancy",
+    "grs"
+  ],
+  "category": "storage",
+  "explanation": "Geo-redundant storage (GRS) replicates data synchronously within the primary region and asynchronously to a secondary paired region; LRS stays within one datacenter and ZRS stays within a single region across zones.",
+  "score_weight": 1.0
+}

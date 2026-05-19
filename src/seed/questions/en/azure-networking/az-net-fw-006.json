@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-net-fw-006",
+  "topic": "azure-networking",
+  "language": "en",
+  "text": "Which Azure service is a stateful firewall that supports fully qualified domain name filtering?",
+  "options": [
+    {
+      "key": "A",
+      "text": "Network Security Group"
+    },
+    {
+      "key": "B",
+      "text": "Azure Firewall"
+    },
+    {
+      "key": "C",
+      "text": "Application Gateway"
+    },
+    {
+      "key": "D",
+      "text": "Azure Bastion"
+    }
+  ],
+  "correct_answer": [
+    "B"
+  ],
+  "difficulty": "medium",
+  "tags": [
+    "firewall",
+    "fqdn"
+  ],
+  "category": "networking",
+  "explanation": "Azure Firewall is a managed stateful firewall service with FQDN tags, application rules, and threat intelligence; NSGs are stateless L3/L4 rules.",
+  "score_weight": 1.0
+}

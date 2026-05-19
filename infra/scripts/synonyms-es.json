@@ -1,0 +1,24 @@
+{
+  "name": "topic-synonyms-es",
+  "format": "solr",
+  "synonyms": [
+    "vpn, puerta de enlace vpn, ipsec, sitio a sitio, punto a sitio",
+    "expressroute, conexión privada, enlace dedicado",
+    "nsg, grupo de seguridad de red, grupo de seguridad",
+    "balanceador de carga, equilibrador de carga",
+    "punto de conexión privado, vínculo privado, private link",
+    "vnet, red virtual",
+    "rbac, control de acceso basado en roles",
+    "key vault, almacén de claves, bóveda de claves",
+    "identidad administrada, identidad gestionada, msi, uami",
+    "entra, entra id, azure ad, directorio azure",
+    "blob, objeto, almacenamiento de objetos",
+    "eliminación temporal, borrado temporal, soft delete",
+    "nivel frecuente, capa frecuente, nivel de acceso frecuente",
+    "nivel esporádico, capa esporádica, nivel de acceso esporádico",
+    "nivel archivo, capa de archivo",
+    "redundancia geográfica, grs, geo redundante",
+    "lrs, redundancia local, redundante localmente",
+    "zrs, redundancia entre zonas"
+  ]
+}

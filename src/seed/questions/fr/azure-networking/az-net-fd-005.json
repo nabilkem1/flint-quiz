@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-net-fd-005",
+  "topic": "azure-networking",
+  "language": "fr",
+  "text": "Quel service Azure convient le mieux à l'équilibrage de charge HTTPS global combiné à une mise en cache en périphérie ?",
+  "options": [
+    {
+      "key": "A",
+      "text": "Application Gateway"
+    },
+    {
+      "key": "B",
+      "text": "Traffic Manager"
+    },
+    {
+      "key": "C",
+      "text": "Azure Front Door"
+    },
+    {
+      "key": "D",
+      "text": "Azure Load Balancer"
+    }
+  ],
+  "correct_answer": [
+    "C"
+  ],
+  "difficulty": "medium",
+  "tags": [
+    "front-door",
+    "cdn"
+  ],
+  "category": "networking",
+  "explanation": "Azure Front Door combine l'équilibrage de charge HTTPS global avec un réseau de diffusion de contenu intégré et un pare-feu applicatif en périphérie.",
+  "score_weight": 1.0
+}

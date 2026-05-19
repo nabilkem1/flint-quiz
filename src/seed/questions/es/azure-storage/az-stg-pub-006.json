@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-stg-pub-006",
+  "topic": "azure-storage",
+  "language": "es",
+  "text": "¿Qué configuración de la cuenta de almacenamiento debe deshabilitarse para impedir el acceso anónimo público a los contenedores de blobs?",
+  "options": [
+    {
+      "key": "A",
+      "text": "Espacio de nombres jerárquico"
+    },
+    {
+      "key": "B",
+      "text": "Permitir acceso anónimo a los blobs"
+    },
+    {
+      "key": "C",
+      "text": "Eliminación temporal"
+    },
+    {
+      "key": "D",
+      "text": "Transferencia segura requerida"
+    }
+  ],
+  "correct_answer": [
+    "B"
+  ],
+  "difficulty": "easy",
+  "tags": [
+    "public-access",
+    "hardening"
+  ],
+  "category": "storage",
+  "explanation": "Deshabilitar «Permitir acceso anónimo a los blobs» bloquea cualquier acceso anónimo a nivel de contenedor, independientemente de las listas de control de acceso del contenedor.",
+  "score_weight": 1.0
+}

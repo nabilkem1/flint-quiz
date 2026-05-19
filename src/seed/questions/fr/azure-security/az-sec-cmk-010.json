@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-sec-cmk-010",
+  "topic": "azure-security",
+  "language": "fr",
+  "text": "Qu'est-ce qui permet d'utiliser un matériel de clé contrôlé par le client pour le chiffrement au repos des ressources Azure ?",
+  "options": [
+    {
+      "key": "A",
+      "text": "Clés d'accès du compte de stockage"
+    },
+    {
+      "key": "B",
+      "text": "Clés gérées par Microsoft"
+    },
+    {
+      "key": "C",
+      "text": "Clés gérées par le client adossées à Azure Key Vault"
+    },
+    {
+      "key": "D",
+      "text": "Signatures d'accès partagé"
+    }
+  ],
+  "correct_answer": [
+    "C"
+  ],
+  "difficulty": "hard",
+  "tags": [
+    "cmk",
+    "encryption"
+  ],
+  "category": "security",
+  "explanation": "Les clés gérées par le client (CMK) stockées dans Azure Key Vault permettent au client de faire pivoter et révoquer le matériel de chiffrement au repos indépendamment du service de stockage.",
+  "score_weight": 1.0
+}

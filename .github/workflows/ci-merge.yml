@@ -1,0 +1,89 @@
+# Merge pipeline (T1/T2 — TASK-175).
+#
+# Runs on every push to `main` after a PR merges. Adds the heavier
+# surfaces the PR tier cannot afford:
+#   * TEST-007 — idempotency under real-Cosmos `ifMatch` etag primitive
+#     (gated on the emulator; SKIPPED locally without it).
+#   * TEST-010 — observability (`grading_event` dimensions + audit
+#     symmetry).
+#   * TEST-022 — coverage-consent two-turn dance.
+#   * TEST-026 — state machine forbidden transitions.
+#   * TEST-027 — server-side timers.
+#
+# CI sets `COSMOS_EMULATOR_ENDPOINT` so the real-Cosmos tests run
+# end-to-end; locally those tests skip with a clear reason.
+
+name: ci-merge
+
+on:
+  push:
+    branches: ["main"]
+
+permissions:
+  contents: read
+
+jobs:
+  merge-tests:
+    name: Merge tier (T1/T2)
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    services:
+      cosmos-emulator:
+        image: mcr.microsoft.com/cosmosdb/linux/azure-cosmos-emulator:latest
+        ports:
+          - 8081:8081
+          - 10251:10251
+          - 10252:10252
+          - 10253:10253
+          - 10254:10254
+        options: >-
+          -e AZURE_COSMOS_EMULATOR_PARTITION_COUNT=1
+          -e AZURE_COSMOS_EMULATOR_IP_ADDRESS_OVERRIDE=127.0.0.1
+    env:
+      # The emulator's HTTPS endpoint. Tests pick this up via the same
+      # env var the gate fixture in `tests/integration/conftest.py`
+      # reads.
+      COSMOS_EMULATOR_ENDPOINT: https://localhost:8081/
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e ".[dev]"
+
+      - name: Wait for Cosmos emulator
+        run: |
+          for i in {1..60}; do
+            curl -sk https://localhost:8081/_explorer/index.html >/dev/null && exit 0
+            sleep 5
+          done
+          echo "Cosmos emulator never came up" >&2
+          exit 1
+
+      - name: TEST-007 — idempotency (real Cosmos)
+        run: pytest tests/integration/test_conditional_write.py tests/test_idempotency.py -q
+
+      - name: TEST-010 — observability
+        run: pytest tests/test_observability.py tests/integration/test_grading_event_emission.py -q
+
+      - name: TEST-022 — coverage-consent two-turn dance
+        run: pytest tests/test_coverage_consent.py -q
+
+      - name: TEST-026 — state machine
+        run: pytest tests/test_session_state_machine.py tests/integration/test_state_machine.py -q
+
+      - name: TEST-027 — server-side timers
+        run: pytest tests/test_timers.py tests/integration/test_timers.py -q
+
+      - name: TEST-019 reinforcement — mutex under contention
+        run: pytest tests/integration/test_dispatcher_mutex.py -q
+
+      - name: Span attribute lint
+        run: pytest tests/integration/test_span_lint.py -q

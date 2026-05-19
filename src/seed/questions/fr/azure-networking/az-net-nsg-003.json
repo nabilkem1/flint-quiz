@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-net-nsg-003",
+  "topic": "azure-networking",
+  "language": "fr",
+  "text": "À quelle couche une règle de groupe de sécurité réseau peut-elle filtrer le trafic ?",
+  "options": [
+    {
+      "key": "A",
+      "text": "Couche application uniquement"
+    },
+    {
+      "key": "B",
+      "text": "Couche 3 et couche 4"
+    },
+    {
+      "key": "C",
+      "text": "Couche 2"
+    },
+    {
+      "key": "D",
+      "text": "Couche 7 uniquement"
+    }
+  ],
+  "correct_answer": [
+    "B"
+  ],
+  "difficulty": "easy",
+  "tags": [
+    "nsg",
+    "firewall"
+  ],
+  "category": "networking",
+  "explanation": "Les groupes de sécurité réseau filtrent aux couches 3 et 4 — par adresse IP source ou destination, port et protocole. L'inspection en couche 7 nécessite Application Gateway avec WAF ou Azure Firewall.",
+  "score_weight": 1.0
+}

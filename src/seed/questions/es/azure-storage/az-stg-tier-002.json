@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-stg-tier-002",
+  "topic": "azure-storage",
+  "language": "es",
+  "text": "¿Qué nivel de acceso de blobs minimiza el costo de almacenamiento para datos rara vez utilizados que toleran horas de latencia de recuperación?",
+  "options": [
+    {
+      "key": "A",
+      "text": "Frecuente"
+    },
+    {
+      "key": "B",
+      "text": "Esporádico"
+    },
+    {
+      "key": "C",
+      "text": "Frío"
+    },
+    {
+      "key": "D",
+      "text": "Archivo"
+    }
+  ],
+  "correct_answer": [
+    "D"
+  ],
+  "difficulty": "medium",
+  "tags": [
+    "tier",
+    "archive"
+  ],
+  "category": "storage",
+  "explanation": "El nivel Archivo ofrece el costo de almacenamiento más bajo para blobs con latencia de recuperación de hasta varias horas mediante una operación de rehidratación; los niveles Frío y Esporádico son más cálidos.",
+  "score_weight": 1.0
+}

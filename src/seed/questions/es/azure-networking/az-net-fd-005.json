@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-net-fd-005",
+  "topic": "azure-networking",
+  "language": "es",
+  "text": "¿Qué servicio de Azure es el más adecuado para el equilibrio de carga HTTPS global combinado con almacenamiento en caché perimetral?",
+  "options": [
+    {
+      "key": "A",
+      "text": "Application Gateway"
+    },
+    {
+      "key": "B",
+      "text": "Traffic Manager"
+    },
+    {
+      "key": "C",
+      "text": "Azure Front Door"
+    },
+    {
+      "key": "D",
+      "text": "Azure Load Balancer"
+    }
+  ],
+  "correct_answer": [
+    "C"
+  ],
+  "difficulty": "medium",
+  "tags": [
+    "front-door",
+    "cdn"
+  ],
+  "category": "networking",
+  "explanation": "Azure Front Door combina el equilibrio de carga HTTPS global con una red de entrega de contenido integrada y un firewall de aplicaciones web en el perímetro.",
+  "score_weight": 1.0
+}

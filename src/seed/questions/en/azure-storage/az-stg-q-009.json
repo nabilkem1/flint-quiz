@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-stg-q-009",
+  "topic": "azure-storage",
+  "language": "en",
+  "text": "Which Azure Storage service stores asynchronous messages of up to 64 kilobytes each?",
+  "options": [
+    {
+      "key": "A",
+      "text": "Service Bus"
+    },
+    {
+      "key": "B",
+      "text": "Storage Queues"
+    },
+    {
+      "key": "C",
+      "text": "Event Hubs"
+    },
+    {
+      "key": "D",
+      "text": "Event Grid"
+    }
+  ],
+  "correct_answer": [
+    "B"
+  ],
+  "difficulty": "easy",
+  "tags": [
+    "queues",
+    "messaging"
+  ],
+  "category": "storage",
+  "explanation": "Azure Storage Queues store messages up to 64 KB and are billed as part of the storage account; Service Bus is a separate, more feature-rich messaging service.",
+  "score_weight": 1.0
+}

@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-net-er-002",
+  "topic": "azure-networking",
+  "language": "en",
+  "text": "Which Azure service offers a private connection to Azure that bypasses the public internet?",
+  "options": [
+    {
+      "key": "A",
+      "text": "VPN Gateway"
+    },
+    {
+      "key": "B",
+      "text": "Azure Bastion"
+    },
+    {
+      "key": "C",
+      "text": "ExpressRoute"
+    },
+    {
+      "key": "D",
+      "text": "Virtual WAN"
+    }
+  ],
+  "correct_answer": [
+    "C"
+  ],
+  "difficulty": "medium",
+  "tags": [
+    "expressroute",
+    "private"
+  ],
+  "category": "networking",
+  "explanation": "ExpressRoute creates a private connection between on-premises infrastructure and Azure via a connectivity provider, not over the public internet.",
+  "score_weight": 1.0
+}

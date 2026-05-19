@@ -1,0 +1,35 @@
+{
+  "logical_id": "az-net-pl-009",
+  "topic": "azure-networking",
+  "language": "fr",
+  "text": "Quelle fonctionnalité fournit une connectivité privée d'un réseau virtuel vers un service PaaS Azure via le backbone Microsoft ?",
+  "options": [
+    {
+      "key": "A",
+      "text": "Point de terminaison privé via Private Link"
+    },
+    {
+      "key": "B",
+      "text": "Point de terminaison de service"
+    },
+    {
+      "key": "C",
+      "text": "Passerelle VPN"
+    },
+    {
+      "key": "D",
+      "text": "ExpressRoute Global Reach"
+    }
+  ],
+  "correct_answer": [
+    "A"
+  ],
+  "difficulty": "medium",
+  "tags": [
+    "private-link",
+    "private-endpoint"
+  ],
+  "category": "networking",
+  "explanation": "Les points de terminaison privés exposent un service PaaS à un réseau virtuel via une adresse IP privée et empruntent exclusivement le backbone Microsoft ; les points de terminaison de service transitent par le réseau Azure mais conservent le point de terminaison public.",
+  "score_weight": 1.0
+}

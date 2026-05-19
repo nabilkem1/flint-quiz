@@ -72,3 +72,15 @@ services:
     docker:
       path: ./src/sweeper/Dockerfile
       remoteBuild: true
+
+  mcp-server:
+    # MCP server Container App — bridges Foundry Playground tool calls
+    # to the same `build_tools(deps)` callables chat.py wires through MAF.
+    # Public ingress on port 8080 (`src/mcp/server.py`); auth via the
+    # Entra Bearer token Foundry's MI presents (`src/mcp/auth.py`).
+    project: .
+    language: python
+    host: containerapp
+    docker:
+      path: ./src/mcp/Dockerfile
+      remoteBuild: true

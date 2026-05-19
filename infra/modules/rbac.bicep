@@ -286,6 +286,49 @@ resource deployerHumanSearchContributor 'Microsoft.Authorization/roleAssignments
   }
 }
 
+// ---- Human deployer Foundry data-plane access ----------------------------
+//
+// Without these three, the operator's AAD user sees:
+//   * "You don't have permission to build agents in this project" in the
+//     Foundry portal (Agents tab — needs Azure AI Developer at minimum).
+//   * `401 PermissionDenied` when running the chat CLI locally against
+//     `/api/projects/<proj>/openai/v1/responses` (needs Cognitive
+//     Services OpenAI User).
+//   * Can't push agent versions out-of-band for testing (needs the
+//     custom `foundryAgentsWriterRole` defined above for the UAMI).
+//
+// All three skip when `deployerHumanPrincipalId == ""` (CI envs that only
+// need the runtime UAMI to have data-plane access).
+resource deployerHumanFoundryAIDeveloper 'Microsoft.Authorization/roleAssignments@2022-04-01' = if (!empty(deployerHumanPrincipalId)) {
+  scope: foundryAccount
+  name: guid(foundryAccountId, deployerHumanPrincipalId, roles.azureAIDeveloper, 'human')
+  properties: {
+    principalId: deployerHumanPrincipalId
+    principalType: deployerHumanPrincipalType
+    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', roles.azureAIDeveloper)
+  }
+}
+
+resource deployerHumanFoundryOpenAIUser 'Microsoft.Authorization/roleAssignments@2022-04-01' = if (!empty(deployerHumanPrincipalId)) {
+  scope: foundryAccount
+  name: guid(foundryAccountId, deployerHumanPrincipalId, roles.cognitiveServicesOpenAIUser, 'human')
+  properties: {
+    principalId: deployerHumanPrincipalId
+    principalType: deployerHumanPrincipalType
+    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', roles.cognitiveServicesOpenAIUser)
+  }
+}
+
+resource deployerHumanFoundryAgentsWriter 'Microsoft.Authorization/roleAssignments@2022-04-01' = if (!empty(deployerHumanPrincipalId)) {
+  scope: foundryAccount
+  name: guid(foundryAccountId, deployerHumanPrincipalId, 'foundry-agents-writer', 'human')
+  properties: {
+    principalId: deployerHumanPrincipalId
+    principalType: deployerHumanPrincipalType
+    roleDefinitionId: foundryAgentsWriterRole.id
+  }
+}
+
 // ---- ACR AcrPull on agent + indexer UAMIs --------------------------------
 // Scoped to the ACR only — never the RG. The role assignments are
 // gated on `containerRegistryId` so the module remains usable without

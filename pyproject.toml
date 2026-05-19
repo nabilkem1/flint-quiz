@@ -1,0 +1,111 @@
+# Build & dependency manifest for `flint-quiz`.
+#
+# Task pack 004 (Microsoft Agent Framework integration) adds the agent
+# runtime, Foundry project client, AI Search SDK, App Configuration
+# client, and observability stack on top of the 003 baseline. The
+# load-bearing constraints are:
+#
+#   - `requires-python = ">=3.11"` (TASK-060). Locks the agent-framework
+#     wheel to a wheel-supported interpreter on the Hosted Agent runtime;
+#     the local dev floor matches so contributors cannot drift.
+#   - `agent-framework>=1.0,<2` pins the MAF major (ADR-001). MAF is
+#     post-GA but young; minor releases are picked up automatically,
+#     major bumps are an explicit decision.
+#   - Pydantic >= 2.5 (alias_generator + camelCase bridge — TASK-045).
+#   - Managed Identity path via azure-identity end-to-end (SEC-004).
+#   - azure-functions stays for the sweeper host (TASK-191) even though
+#     this pack does not touch it — same lockfile.
+
+[build-system]
+requires = ["hatchling>=1.21"]
+build-backend = "hatchling.build"
+
+[project]
+name = "flint-quiz"
+version = "0.1.0"
+description = "Multilingual conversational quiz on Microsoft Agent Framework + Azure Foundry."
+requires-python = ">=3.11"
+dependencies = [
+    # `agent-framework>=1` brings `agent-framework-foundry` which requires
+    # `azure-ai-projects>=2`. The 2.x AIProjectClient is what
+    # `src/agent/__main__.py` uses (`endpoint=`, not `conn_str=`).
+    "agent-framework>=1.0,<2",
+    "azure-ai-projects>=1.0,<3",
+    "azure-cosmos>=4.7,<5",
+    "azure-search-documents>=11.5,<12",
+    "azure-identity>=1.17,<2",
+    "azure-keyvault-secrets>=4.8,<5",
+    "azure-appconfiguration>=1.7,<2",
+    "azure-monitor-opentelemetry>=1.6,<2",
+    "azure-storage-blob>=12.20,<13",
+    "azure-functions>=1.20,<2",
+    "pydantic>=2.5,<3",
+    "pyyaml>=6.0,<7",
+    # MCP server (src/mcp) — exposes the 5 tools to the Foundry Playground
+    # over HTTP + JSON-RPC. FastAPI for the transport; PyJWT (with the
+    # `crypto` extras for RS256 signatures) for validating the Entra
+    # token Foundry's MI presents.
+    "fastapi>=0.115,<1",
+    "uvicorn[standard]>=0.30,<1",
+    "pyjwt[crypto]>=2.8,<3",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.2,<9",
+    "pytest-asyncio>=0.23,<1",
+    "ruff>=0.5,<1",
+    "mypy>=1.10,<2",
+    "import-linter>=2.0,<3",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+addopts = "-ra"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+# Ruleset narrowed to what the 004 codebase exercises; the docs/coding-standards
+# linter contract picks the rest up in CI.
+select = ["E", "F", "I", "B", "UP", "S", "RUF"]
+ignore = [
+    # `assert` is the pytest idiom; the security rule is satisfied by S101's
+    # default exclusion for tests/ only — keep it disabled across the tree to
+    # avoid noise on `assert <invariant>` inside production code paths that
+    # mirror domain preconditions.
+    "S101",
+]
+
+[tool.ruff.lint.per-file-ignores]
+# Test files routinely embed synthetic answer-key fixtures and hashed strings.
+"tests/**/*.py" = ["S105", "S106"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+warn_unused_ignores = true
+plugins = ["pydantic.mypy"]
+
+[tool.importlinter]
+root_package = "src"
+
+# The dispatcher is the **only** import path from MAF tool-call loop to
+# tool bodies (TASK-070 / docs/llm-boundary). Enforced statically so a
+# helper that imports `src.agent.tools.<body>` directly fails CI.
+[[tool.importlinter.contracts]]
+name = "Tool bodies are reachable only through the dispatcher"
+type = "forbidden"
+source_modules = [
+    "src.agent.quiz_agent",
+    "src.agent.resumption",
+    "src.agent.agent_thread",
+    "src.agent.language_detection",
+]
+forbidden_modules = ["src.agent.tools"]

@@ -74,8 +74,8 @@ param chatModelVersion string = '2024-07-18'
 @description('Chat model SKU name')
 param chatModelSkuName string = 'GlobalStandard'
 
-@description('Chat model SKU capacity (TPM units; bump for higher throughput)')
-param chatModelSkuCapacity int = 10
+@description('Chat model SKU capacity (TPM units, kilo-tokens-per-minute on GlobalStandard). 10 is the bicep default; 10x that handles interactive quiz play comfortably (each multi-turn tool call ~1-3k tokens; 5+ questions × MCP roundtrips overflows the floor). Bump higher for production / load tests; the gpt-4o-mini PAYG ceiling is typically 1000+ on most subscriptions.')
+param chatModelSkuCapacity int = 100
 
 @description('TTL applied to completed/expired session documents in Cosmos (003)')
 param cosmosSessionsTtlDays int = 30
@@ -124,6 +124,12 @@ param quizAgentImageRef string = ''
 @description('Image reference for the seed-loader CAJ. Same pattern as `sweeperImageRef`: bootstrap when empty, real ACR tag otherwise. Read from `SERVICE_SEED_LOADER_IMAGE_NAME` via main.parameters.json on subsequent provisions.')
 param seedLoaderImageRef string = ''
 
+@description('Image reference for the mcp-server Container App. Same pattern as `sweeperImageRef`: bootstrap when empty, real ACR tag otherwise. Read from `SERVICE_MCP_SERVER_IMAGE_NAME` via main.parameters.json on subsequent provisions.')
+param mcpServerImageRef string = ''
+
+@description('Whether to deploy the MCP server Container App. The 5 quiz tools are also registered as inline `type:function` tools on the agent for the chat CLI path; the MCP server is the bridge that lets the Foundry Playground execute them too.')
+param deployMcpServer bool = true
+
 // Centralized bootstrap image — keeps every consumer string in sync if we
 // ever want to change the hello-world default (e.g., a tiny custom image
 // that prints a clearer message about "real image not yet pushed").
@@ -134,6 +140,7 @@ var bootstrapImageRef = 'mcr.microsoft.com/azuredocs/containerapps-helloworld:la
 var resolvedSweeperImageRef = empty(sweeperImageRef) ? bootstrapImageRef : sweeperImageRef
 var resolvedQuizAgentImageRef = empty(quizAgentImageRef) ? bootstrapImageRef : quizAgentImageRef
 var resolvedSeedLoaderImageRef = empty(seedLoaderImageRef) ? bootstrapImageRef : seedLoaderImageRef
+var resolvedMcpServerImageRef = empty(mcpServerImageRef) ? bootstrapImageRef : mcpServerImageRef
 
 // ---- Derived values --------------------------------------------------------
 
@@ -509,11 +516,74 @@ module quizAgentApp 'modules/quiz-agent-app.bicep' = {
     foundryProjectName: foundry.outputs.projectName
     modelDeploymentName: modelDeploymentName
     chatModelDeploymentName: chatModelDeploymentName
+    // When the MCP server is deployed, surface its public URL so the
+    // agent registration adds an MCPTool entry next to the function
+    // tools (Playground reaches function-tools-via-MCP, chat CLI uses
+    // the inline FunctionTool entries). Empty when the gate is off.
+    mcpServerUrl: deployMcpServer ? mcpServerApp!.outputs.mcpUrl : ''
+    mcpConnectionName: deployMcpServer ? mcpConnection!.outputs.connectionName : ''
     appInsightsConnectionString: observability.outputs.appInsightsConnectionString
     appConfigEndpoint: appConfig.outputs.appConfigEndpoint
     cosmosEndpoint: cosmos.outputs.cosmosEndpoint
     searchEndpoint: search.outputs.searchEndpoint
     imageRef: resolvedQuizAgentImageRef
+  }
+}
+
+// ---- Foundry project connection for the MCP server ----------------------
+//
+// Without this, the agent's MCPTool entry has no way to authenticate to
+// our /mcp endpoint and Foundry calls it anonymously → 401. The
+// connection stores the URL + tells Foundry to use AAD (its project MI)
+// when calling out.
+module mcpConnection 'modules/foundry-mcp-connection.bicep' = if (deployMcpServer) {
+  name: 'mcp-connection-${environmentName}'
+  scope: resourceGroup(rgName)
+  dependsOn: [
+    mcpServerApp
+  ]
+  params: {
+    foundryAccountName: foundry.outputs.foundryAccountName
+    foundryProjectName: foundry.outputs.projectName
+    mcpServerUrl: mcpServerApp!.outputs.mcpUrl
+    connectionName: 'flint-quiz-mcp'
+  }
+}
+
+// ---- MCP server Container App (Foundry Playground bridge) ---------------
+//
+// The 5 quiz tools are inline `type:function` tools on the agent (for the
+// chat CLI). The MCP server is the parallel bridge that lets the Foundry
+// Playground execute the same tools server-side. Both surfaces share
+// `build_tools(deps)` so the tool bodies stay single-source-of-truth.
+module mcpServerApp 'modules/mcp-server-app.bicep' = if (deployMcpServer) {
+  name: 'mcp-server-${environmentName}'
+  scope: resourceGroup(rgName)
+  dependsOn: [
+    rbac
+    cosmosDatabase
+  ]
+  params: {
+    prefix: prefix
+    environmentName: environmentName
+    location: location
+    tags: commonTags
+    environmentId: containerAppsEnv.outputs.environmentId
+    registryLoginServer: containerRegistry.outputs.loginServer
+    uamiAgentResourceId: uami.outputs.agentResourceId
+    uamiAgentClientId: uami.outputs.agentClientId
+    cosmosEndpoint: cosmos.outputs.cosmosEndpoint
+    searchEndpoint: search.outputs.searchEndpoint
+    tenantId: subscription().tenantId
+    // Allowlist: the agent UAMI is the default Foundry runtime identity
+    // when executing an agent that uses our project's attached UAMI. If
+    // Foundry calls /mcp with a different principal at deploy time (e.g.,
+    // a project-level SAMI Microsoft enables for the preview MCP flow),
+    // extend this list — the deploy hook surfaces the rejected OIDs from
+    // the MCP server's 403 logs.
+    mcpTrustedPrincipalOids: uami.outputs.agentPrincipalId
+    appInsightsConnectionString: observability.outputs.appInsightsConnectionString
+    imageRef: resolvedMcpServerImageRef
   }
 }
 

@@ -23,6 +23,7 @@
     "deployerPrincipalType": { "value": "${AZURE_PRINCIPAL_TYPE=User}" },
     "sweeperImageRef": { "value": "${SERVICE_SWEEPER_IMAGE_NAME=mcr.microsoft.com/azuredocs/containerapps-helloworld:latest}" },
     "quizAgentImageRef": { "value": "${SERVICE_QUIZ_AGENT_IMAGE_NAME=mcr.microsoft.com/azuredocs/containerapps-helloworld:latest}" },
-    "seedLoaderImageRef": { "value": "${SERVICE_SEED_LOADER_IMAGE_NAME=mcr.microsoft.com/azuredocs/containerapps-helloworld:latest}" }
+    "seedLoaderImageRef": { "value": "${SERVICE_SEED_LOADER_IMAGE_NAME=mcr.microsoft.com/azuredocs/containerapps-helloworld:latest}" },
+    "mcpServerImageRef": { "value": "${SERVICE_MCP_SERVER_IMAGE_NAME=mcr.microsoft.com/azuredocs/containerapps-helloworld:latest}" }
   }
 }

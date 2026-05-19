@@ -83,6 +83,17 @@ logger = logging.getLogger(__name__)
 
 
 # ---------------------------------------------------------------------------
+# Module constants
+# ---------------------------------------------------------------------------
+
+# Fallback question count when neither `start_quiz`'s `n` arg nor the
+# topic's `default_n` is set. 10 matches the historical seed (each topic
+# has ~10 questions per language) so a default-everything quiz uses the
+# whole bank.
+START_QUIZ_DEFAULT_N: int = 10
+
+
+# ---------------------------------------------------------------------------
 # Dependency container
 # ---------------------------------------------------------------------------
 
@@ -276,6 +287,18 @@ async def _start_quiz(
             detail={"topic": request.topic},
         )
 
+    # Resolve effective n: user-supplied wins, then the topic's
+    # configured default, then the module-level constant. This is the
+    # quiz-definition-default flow — operator pre-configures `default_n`
+    # in `topics.json`, the seed loader writes it to the Cosmos `topics`
+    # container, and start_quiz picks it up here whenever the model
+    # doesn't pass an explicit `n`.
+    requested_n: int = (
+        request.n
+        if request.n is not None
+        else (topic.default_n if topic.default_n is not None else START_QUIZ_DEFAULT_N)
+    )
+
     coverage = int(topic.counts.get(request.language, 0))
     fallback_notice: FallbackNotice | None = None
 
@@ -284,7 +307,7 @@ async def _start_quiz(
         suggested = suggest_fallback(
             topic,
             requested_lang=request.language,
-            n=request.n,
+            n=requested_n,
             user_preferred=(user.language if user else None),
         )
         return _error(
@@ -297,14 +320,14 @@ async def _start_quiz(
             },
         )
 
-    effective_n = request.n
-    if coverage < request.n:
+    effective_n = requested_n
+    if coverage < requested_n:
         effective_n = coverage
         fallback_notice = FallbackNotice(
             requested=request.language,
             resolved=request.language,
             reason="count_clamped",
-            requested_n=request.n,
+            requested_n=requested_n,
             resolved_n=effective_n,
         )
 

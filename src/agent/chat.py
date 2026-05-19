@@ -120,8 +120,8 @@ async def set_language(language: str) -> dict[str, Any]:
 
 async def start_quiz(
     topic: str,
-    n: int,
     language: str,
+    n: int | None = None,
     difficulty: str | None = None,
     channel: str = "text",
 ) -> dict[str, Any]:
@@ -129,8 +129,10 @@ async def start_quiz(
 
     Args:
         topic: Topic ID (e.g. "azure-networking").
-        n: Number of questions (1..50).
         language: ISO 639-1 language code.
+        n: Number of questions (1..50). OPTIONAL — leave unset to use
+            the topic's preconfigured ``default_n``. Only pass when the
+            user volunteers an explicit count.
         difficulty: One of "easy", "medium", "hard", "mixed" (optional).
         channel: "text" or "voice".
 
@@ -141,10 +143,11 @@ async def start_quiz(
     args: dict[str, Any] = {
         "user_id": principal.entra_oid,
         "topic": topic,
-        "n": n,
         "language": language,
         "channel": channel,
     }
+    if n is not None:
+        args["n"] = n
     if difficulty:
         args["difficulty"] = difficulty
     result = await _TOOL_FNS["start_quiz"](args, principal)

@@ -341,13 +341,22 @@ class UserDoc(CosmosBase):
 
 
 class TopicDoc(CosmosBase):
-    """Topic catalog row (008-api §2.3)."""
+    """Topic catalog row (008-api §2.3).
+
+    A topic IS a quiz definition: it parameterises the agent's tool calls
+    (topic_id, default_language) and now carries a `default_n` so the
+    operator can pre-configure how many questions a quiz on this topic
+    runs by default. `start_quiz` falls back to this value when the user
+    doesn't ask for an explicit count, then to `START_QUIZ_DEFAULT_N`
+    (constant in tools.py) when the topic itself doesn't have one.
+    """
 
     id: str
     topic_id: str
     labels: dict[str, str]
     counts: dict[str, int]
     default_language: str
+    default_n: int | None = Field(default=None, ge=1, le=50)
     enabled: bool = True
     updated_at: datetime
     schema_version: int = COSMOS_SCHEMA_VERSION
@@ -458,7 +467,17 @@ class SetLanguageResponse(_ToolModel):
 class StartQuizRequest(_ToolModel):
     user_id: str
     topic: str = Field(min_length=1, max_length=64)
-    n: int = Field(ge=1, le=50)
+    n: int | None = Field(
+        default=None,
+        ge=1,
+        le=50,
+        description=(
+            "Number of questions (1..50). OPTIONAL — leave unset to use the "
+            "topic's pre-configured `default_n` (typically 10). Do NOT ask the "
+            "user 'how many questions?' unprompted; only pass an explicit value "
+            "when the user volunteers a number in their message."
+        ),
+    )
     language: str = Field(
         min_length=2,
         max_length=2,

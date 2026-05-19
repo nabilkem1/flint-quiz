@@ -3,6 +3,7 @@
     {
       "id": "azure-networking",
       "default_language": "en",
+      "default_n": 10,
       "enabled": true,
       "labels": {
         "en": "Azure Networking",
@@ -13,6 +14,7 @@
     {
       "id": "azure-security",
       "default_language": "en",
+      "default_n": 10,
       "enabled": true,
       "labels": {
         "en": "Azure Security",
@@ -23,6 +25,7 @@
     {
       "id": "azure-storage",
       "default_language": "en",
+      "default_n": 10,
       "enabled": true,
       "labels": {
         "en": "Azure Storage",

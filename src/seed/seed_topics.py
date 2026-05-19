@@ -84,6 +84,7 @@ async def _amain(
             labels=topic["labels"],
             counts=topic_counts,
             default_language=topic["default_language"],
+            default_n=topic.get("default_n"),
             enabled=topic.get("enabled", True),
             updated_at=now,
         )

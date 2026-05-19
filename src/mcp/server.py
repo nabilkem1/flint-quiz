@@ -36,6 +36,7 @@ from src.data.models import (
     SubmitAnswerRequest,
 )
 from src.data.question_search import QuestionSearch, build_search_client
+from src.data.tool_schemas import public_input_schema
 from src.mcp.auth import require_foundry_caller
 from src.observability.telemetry import TelemetryConfig, initialise_telemetry
 
@@ -139,11 +140,14 @@ async def mcp_endpoint(
         return _ok(rpc_id, {}) if rpc_id is not None else {"jsonrpc": "2.0"}
 
     if method == "tools/list":
+        # `public_input_schema` strips `user_id` — see `src.data.tool_schemas`
+        # for the rationale. The override below re-injects it from the
+        # authenticated caller before dispatch.
         tools_list = [
             {
                 "name": name,
                 "description": DESCRIPTIONS[name],
-                "inputSchema": model.model_json_schema(),
+                "inputSchema": public_input_schema(model),
             }
             for name, model in REQUEST_MODELS.items()
         ]
@@ -155,13 +159,14 @@ async def mcp_endpoint(
         if tool_name not in _state["tools"]:
             return _error(rpc_id, -32601, f"unknown tool: {tool_name!r}")
 
-        # Authoritative principal == the caller validated by `src/mcp/auth.py`
-        # (the project MI's `oid` claim). The model can put any string in
-        # the `user_id` arg; the dispatcher's `request.user_id !=
-        # principal.entra_oid` check would reject it. We OVERWRITE the
-        # arg with the authenticated OID — the model's claim is advisory,
-        # the wire principal is authoritative.
-        if "user_id" in args:
+        # `user_id` is stripped from the published schema (see
+        # `tools/list` above) so the model never sees / sends it. We
+        # inject it here from the authenticated principal for every
+        # tool whose request model declares it — keeps the dispatcher's
+        # `request.user_id != principal.entra_oid` check trivially true
+        # and centralises the user-identity flow at the wire boundary.
+        request_model = REQUEST_MODELS.get(tool_name)
+        if request_model is not None and "user_id" in request_model.model_fields:
             args["user_id"] = caller_oid
 
         principal = Principal(entra_oid=caller_oid)

@@ -132,6 +132,7 @@ async def register_foundry_agent() -> str | None:
         StartQuizRequest,
         SubmitAnswerRequest,
     )
+    from src.data.tool_schemas import public_input_schema  # noqa: PLC0415
 
     descriptions = {
         "list_topics": "Return the catalog of available quiz topics with localized labels.",
@@ -155,7 +156,12 @@ async def register_foundry_agent() -> str | None:
             type="function",
             name=name,
             description=descriptions[name],
-            parameters=request_models[name].model_json_schema(),
+            # `user_id` is a wire concern (authenticated principal),
+            # not a model concern. The MCP server / chat-CLI dispatcher
+            # injects it from the caller's Entra OID. Stripping it from
+            # the schema prevents the model from asking for / inventing
+            # an Entra OID.
+            parameters=public_input_schema(request_models[name]),
             strict=False,
         )
         for name in sorted(ALLOWED_TOOLS)

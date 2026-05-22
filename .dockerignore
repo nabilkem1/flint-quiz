@@ -15,6 +15,7 @@ adr/
 tasks/
 .specify/
 .claude/
+.documentation/
 
 # Local dev surface
 .azure/

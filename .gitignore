@@ -1,0 +1,58 @@
+# Python ----------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+.tox/
+.nox/
+
+# Virtual environments --------------------------------------------------------
+.venv/
+venv/
+env/
+ENV/
+
+# Azure Developer CLI ---------------------------------------------------------
+# `.azure/` is azd's local env state — contains the active subscription,
+# tenant, environment variables (including service-deploy image refs and
+# any secrets you've `azd env set`). Never commit it.
+.azure/
+
+# Environment / secrets -------------------------------------------------------
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+
+# IDE / editor ----------------------------------------------------------------
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS --------------------------------------------------------------------------
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Logs ------------------------------------------------------------------------
+*.log
+
+# Bicep -----------------------------------------------------------------------
+# `main.json` is the compiled output of `main.bicep` — azd compiles on
+# every deploy, so the checked-in copy is mostly for inspection. If you
+# don't want it tracked, uncomment:
+# infra/main.json

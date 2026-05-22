@@ -36,7 +36,13 @@ param uamiAgentResourceId string
 @description('Log Analytics workspace resource ID — destination of project diagnostic settings (NFR-008)')
 param logAnalyticsId string
 
-var foundryName = '${prefix}-${environmentName}-foundry'
+// Foundry account names (customSubDomainName) share a GLOBAL DNS namespace
+// (`*.openai.azure.com` / `*.services.ai.azure.com`), so a bare
+// `<prefix>-<env>-foundry` will collide and ARM preflight returns
+// CustomDomainInUse. Append a deterministic per-RG suffix.
+// Max length 64; lowercase + digits + hyphen.
+var suffix = uniqueString(resourceGroup().id, environmentName)
+var foundryName = take('${prefix}-${environmentName}-foundry-${suffix}', 64)
 var projectName = '${prefix}-${environmentName}-proj'
 
 // Foundry account ("AI Foundry resource" in portal language). The custom

@@ -1,141 +1,77 @@
-"""JWT validation for the MCP server's `/mcp` endpoint.
+"""API-key authentication for the MCP server's `/mcp` endpoint.
 
-Foundry's runtime calls our MCP server using a Managed Identity token —
-either the Foundry project's system-assigned MI or the agent's UAMI,
-depending on how the MCP connection is configured on the project.
+Foundry's Playground refuses to forward any Entra-issued token to a custom
+MCP endpoint (`tool_user_error: Cannot pass Microsoft token to untrusted
+MCP endpoint or connector`). We use a shared API key on `X-API-Key`
+instead — Foundry's MCP connection is configured with `CustomKeys` auth
+(see `infra/modules/foundry-mcp-connection.bicep`) and attaches the same
+key to every outgoing request.
 
-We validate the incoming `Authorization: Bearer <JWT>` against:
+Server-side: we read the expected value from `MCP_API_KEY` (a Container
+Apps secret) and compare with `hmac.compare_digest` for constant-time
+match.
 
-  1. Signature (RS256 via Entra's JWKS for our tenant).
-  2. Issuer (`https://login.microsoftonline.com/<tenant>/v2.0` or the
-     v1 sts.windows.net form — both are accepted).
-  3. Caller principal — the ``oid`` claim must match one of the
-     allowlisted MIs configured at deploy time
-     (``MCP_TRUSTED_PRINCIPAL_OIDS``, comma-separated).
-
-Audience checking is intentionally lax (`verify_aud=False`) because the
-MI → MI flow uses Entra-issued tokens whose audience varies by Foundry's
-internal contract — we trust the principal instead. The signature +
-issuer + allowlist together still provide a strong identity proof.
-
-The validated ``oid`` becomes the ``Principal.entra_oid`` we pass to the
-tool dispatchers, so each tool body sees the same identity surface it
-does when called from the chat CLI.
+Caller identity: with a static key, there's no per-caller Entra OID to
+hand the dispatcher. The MCP transport injects `user_id` into tool
+arguments from the JSON-RPC `arguments` payload, so the dispatcher's
+`Principal` here is a fixed sentinel — the actual per-user identity flows
+through the tool args (set on the agent side from the conversation
+context).
 """
 
 from __future__ import annotations
 
+import hmac
 import logging
 import os
-from functools import lru_cache
 
-import jwt
 from fastapi import Header, HTTPException, status
 
 logger = logging.getLogger(__name__)
 
-_ENV_TENANT_ID = "AZURE_TENANT_ID"
-_ENV_TRUSTED_OIDS = "MCP_TRUSTED_PRINCIPAL_OIDS"
+_ENV_API_KEY = "MCP_API_KEY"
 
-
-@lru_cache(maxsize=1)
-def _trusted_oids() -> frozenset[str]:
-    """Comma-separated allowlist of Entra OIDs the MCP server accepts.
-
-    Wired at deploy time from `infra/modules/mcp-server-app.bicep`:
-    the Foundry account's system-assigned MI principal ID, plus the
-    agent UAMI principal ID (handy when running the chat CLI as the
-    UAMI in CI scenarios). Empty allowlist = REJECT EVERYONE.
-    """
-
-    raw = os.environ.get(_ENV_TRUSTED_OIDS, "")
-    return frozenset(oid.strip() for oid in raw.split(",") if oid.strip())
-
-
-@lru_cache(maxsize=1)
-def _jwks_client() -> jwt.PyJWKClient:
-    tenant_id = os.environ[_ENV_TENANT_ID]
-    return jwt.PyJWKClient(
-        f"https://login.microsoftonline.com/{tenant_id}/discovery/v2.0/keys",
-    )
-
-
-def _expected_issuers() -> tuple[str, ...]:
-    tenant_id = os.environ[_ENV_TENANT_ID]
-    return (
-        f"https://login.microsoftonline.com/{tenant_id}/v2.0",
-        f"https://sts.windows.net/{tenant_id}/",
-    )
+# Sentinel principal returned when the API-key check passes. The real
+# per-user identity flows through tool args (see `src/mcp/server.py`
+# `tools/call` handler, which threads `user_id` from the JSON-RPC
+# arguments into the Principal before dispatch).
+MCP_CALLER_OID = "mcp-shared-key-caller"
 
 
 async def require_foundry_caller(
-    authorization: str = Header(default=""),
+    x_api_key: str = Header(default="", alias="X-API-Key"),
 ) -> str:
-    """Validate the bearer token and return the caller's ``oid`` claim.
+    """Validate the `X-API-Key` header and return a sentinel caller id.
 
     Raises:
-        HTTPException(401): missing / malformed / expired / untrusted token.
+        HTTPException(401): missing or mismatched key.
+        HTTPException(503): server misconfigured (no key set in env).
 
     Returns:
-        The validated ``oid`` claim — used as the Principal for tool dispatch.
+        A fixed sentinel string — the per-user identity is carried in
+        the tool's `user_id` argument, not in the transport header.
     """
 
-    if not authorization or not authorization.startswith("Bearer "):
+    expected = os.environ.get(_ENV_API_KEY, "")
+    if not expected:
+        logger.error("mcp.auth.no_key_configured", extra={"env": _ENV_API_KEY})
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail=f"MCP server misconfigured: {_ENV_API_KEY} is empty",
+        )
+
+    presented = (x_api_key or "").strip()
+    if not presented:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="missing or malformed Authorization header",
+            detail="missing X-API-Key header",
         )
-    token = authorization[len("Bearer ") :].strip()
-    if not token:
+
+    if not hmac.compare_digest(presented, expected):
+        logger.warning("mcp.auth.key_mismatch")
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="empty bearer token",
+            detail="invalid X-API-Key",
         )
 
-    try:
-        signing_key = _jwks_client().get_signing_key_from_jwt(token).key
-        claims = jwt.decode(
-            token,
-            signing_key,
-            algorithms=["RS256"],
-            options={"verify_aud": False},
-            issuer=list(_expected_issuers()),
-        )
-    except jwt.ExpiredSignatureError:
-        raise HTTPException(status_code=401, detail="token expired") from None
-    except jwt.InvalidIssuerError:
-        raise HTTPException(status_code=401, detail="unexpected issuer") from None
-    except jwt.PyJWTError as exc:
-        logger.warning("mcp.auth.jwt_invalid", extra={"error": str(exc)})
-        raise HTTPException(status_code=401, detail=f"invalid token: {exc}") from None
-
-    oid = claims.get("oid") or claims.get("sub")
-    if not oid:
-        raise HTTPException(status_code=401, detail="token missing oid/sub claim")
-
-    allowed = _trusted_oids()
-    if not allowed:
-        # Defence in depth — refuse to start up effectively open.
-        logger.error("mcp.auth.no_allowlist", extra={"env": _ENV_TRUSTED_OIDS})
-        raise HTTPException(
-            status_code=503,
-            detail=f"MCP server misconfigured: {_ENV_TRUSTED_OIDS} is empty",
-        )
-    if oid not in allowed:
-        # NOTE: print + logger.warning — uvicorn's default logging filter
-        # drops application-level WARNINGs unless we configure them
-        # explicitly. The print() guarantees stdout capture by Container
-        # Apps regardless of how the logger is wired.
-        print(
-            f"MCP_AUTH_REJECT incoming_oid={oid!r} "
-            f"allowlist_count={len(allowed)} "
-            f"allowlist_sample={list(allowed)[:2]!r}",
-            flush=True,
-        )
-        logger.warning(
-            "mcp.auth.untrusted_principal",
-            extra={"oid_prefix": oid[:8], "allowed_count": len(allowed)},
-        )
-        raise HTTPException(status_code=403, detail="caller not in MCP allowlist")
-
-    return oid
+    return MCP_CALLER_OID

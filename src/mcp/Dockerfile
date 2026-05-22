@@ -5,8 +5,9 @@
 #
 # Identity: the container runs as `uami-agent-*` (Cosmos Data Contributor
 # + AI Search reader). On incoming requests, `src/mcp/auth.py` validates
-# the caller's Entra token and matches the `oid` claim against the
-# MCP_TRUSTED_PRINCIPAL_OIDS env var.
+# the caller's `X-API-Key` header against the MCP_API_KEY env var
+# (Container Apps secret). The shared key is the same value Foundry
+# stores on the MCP connection (CustomKeys auth).
 
 # ---- 1. builder ----------------------------------------------------------
 FROM mcr.microsoft.com/devcontainers/python:1-3.12-bookworm AS builder

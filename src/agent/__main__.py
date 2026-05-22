@@ -151,36 +151,35 @@ async def register_foundry_agent() -> str | None:
         "submit_answer": SubmitAnswerRequest,
         "get_results": GetResultsRequest,
     }
-    tools: list = [
-        FunctionTool(
-            type="function",
-            name=name,
-            description=descriptions[name],
-            # `user_id` is a wire concern (authenticated principal),
-            # not a model concern. The MCP server / chat-CLI dispatcher
-            # injects it from the caller's Entra OID. Stripping it from
-            # the schema prevents the model from asking for / inventing
-            # an Entra OID.
-            parameters=public_input_schema(request_models[name]),
-            strict=False,
-        )
-        for name in sorted(ALLOWED_TOOLS)
-    ]
-
-    # If a public MCP server URL is configured (the third Container App
-    # — `mcp-server` — exposes /mcp over HTTPS), ALSO register an MCPTool
-    # entry so the Foundry Playground can reach the same 5 tools without
-    # needing an external client. The chat CLI / MAF path keeps using
-    # the function-tool entries above; the MCP path adds Playground
-    # capability without removing the function path. Both paths share
-    # `build_tools(deps)` as the actual execution body.
+    # Tool registration strategy:
+    #
+    # - When the MCP server is wired (MCP_SERVER_URL + MCP_CONNECTION_NAME
+    #   set), register ONLY the MCPTool. The MCP server exposes the same 5
+    #   tool bodies; Foundry retrieves `tools/list` from it at run time and
+    #   inlines them into the model's tool space. Routing all calls through
+    #   the single MCP surface avoids the name-collision failure we hit
+    #   when the agent definition carried both function- and mcp-type
+    #   entries for the same names: the model picked the unprefixed
+    #   function name, Foundry routed to FunctionTool, no client-side
+    #   executor existed (Playground), and the run died with
+    #   `No tool output found for function call ...`. With MCPTool-only,
+    #   Foundry server-side-executes every tool call against /mcp.
+    #
+    # - When no MCP URL is configured (older envs, local dev), fall back
+    #   to FunctionTool entries so the chat CLI (`src/agent/chat.py`) can
+    #   keep its MAF-managed dispatch loop.
+    #
+    # The MCP connection (`infra/modules/foundry-mcp-connection.bicep`)
+    # uses CustomKeys auth — Foundry attaches `X-API-Key` (the same
+    # shared key that `src/mcp/auth.py` validates) on every outgoing
+    # call. We deliberately do NOT use AAD/ProjectManagedIdentity here
+    # because the Playground rejects forwarding any Entra token to a
+    # custom MCP endpoint (`tool_user_error: Cannot pass Microsoft token
+    # to untrusted MCP endpoint or connector`).
     mcp_url = os.environ.get("MCP_SERVER_URL", "").strip()
     mcp_connection_name = os.environ.get("MCP_CONNECTION_NAME", "").strip()
+    tools: list = []
     if mcp_url and mcp_connection_name:
-        # `project_connection_id` is what tells Foundry to authenticate to
-        # our /mcp endpoint with the connection's stored auth (AAD →
-        # project-managed-identity). Without it, Foundry calls anonymously
-        # and our server-side `src/mcp/auth.py` returns 401.
         tools.append(
             MCPTool(
                 type="mcp",
@@ -195,12 +194,32 @@ async def register_foundry_agent() -> str | None:
             )
         )
         logger.info(
-            "agent.register.mcp_tool_added",
+            "agent.register.mcp_tool_only",
             extra={
                 "server_url": mcp_url,
                 "server_label": "flint-quiz-tools",
                 "connection_name": mcp_connection_name,
             },
+        )
+    else:
+        tools.extend(
+            FunctionTool(
+                type="function",
+                name=name,
+                description=descriptions[name],
+                # `user_id` is a wire concern (authenticated principal),
+                # not a model concern. The MCP server / chat-CLI dispatcher
+                # injects it from the caller's Entra OID. Stripping it from
+                # the schema prevents the model from asking for / inventing
+                # an Entra OID.
+                parameters=public_input_schema(request_models[name]),
+                strict=False,
+            )
+            for name in sorted(ALLOWED_TOOLS)
+        )
+        logger.info(
+            "agent.register.function_tools_only",
+            extra={"tool_count": len(tools)},
         )
 
     credential = DefaultAzureCredential()

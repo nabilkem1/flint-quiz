@@ -165,6 +165,12 @@ async def mcp_endpoint(
         # tool whose request model declares it — keeps the dispatcher's
         # `request.user_id != principal.entra_oid` check trivially true
         # and centralises the user-identity flow at the wire boundary.
+        #
+        # With API-key auth (`src/mcp/auth.py`) `caller_oid` is a fixed
+        # sentinel rather than a per-user Entra OID, so all calls coming
+        # through MCP share one logical user. Per-user identity over MCP
+        # would require a different auth model (e.g., OAuth2 with user
+        # tokens) — out of scope for the current Playground bridge.
         request_model = REQUEST_MODELS.get(tool_name)
         if request_model is not None and "user_id" in request_model.model_fields:
             args["user_id"] = caller_oid

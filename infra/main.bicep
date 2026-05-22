@@ -130,6 +130,10 @@ param mcpServerImageRef string = ''
 @description('Whether to deploy the MCP server Container App. The 5 quiz tools are also registered as inline `type:function` tools on the agent for the chat CLI path; the MCP server is the bridge that lets the Foundry Playground execute them too.')
 param deployMcpServer bool = true
 
+@secure()
+@description('Shared API key the Foundry MCP connection presents and the MCP server validates (X-API-Key header). Defaults to newGuid() which rotates every provision — pin to a stable value via `azd env set MCP_API_KEY <value>` if you need rotation control. Same value is wired into both the Foundry connection (CustomKeys auth) and the MCP server container (env-as-secret).')
+param mcpApiKey string = newGuid()
+
 // Centralized bootstrap image — keeps every consumer string in sync if we
 // ever want to change the hello-world default (e.g., a tiny custom image
 // that prints a clearer message about "real image not yet pushed").
@@ -547,6 +551,7 @@ module mcpConnection 'modules/foundry-mcp-connection.bicep' = if (deployMcpServe
     foundryProjectName: foundry.outputs.projectName
     mcpServerUrl: mcpServerApp!.outputs.mcpUrl
     connectionName: 'flint-quiz-mcp'
+    apiKey: mcpApiKey
   }
 }
 
@@ -574,14 +579,7 @@ module mcpServerApp 'modules/mcp-server-app.bicep' = if (deployMcpServer) {
     uamiAgentClientId: uami.outputs.agentClientId
     cosmosEndpoint: cosmos.outputs.cosmosEndpoint
     searchEndpoint: search.outputs.searchEndpoint
-    tenantId: subscription().tenantId
-    // Allowlist: the agent UAMI is the default Foundry runtime identity
-    // when executing an agent that uses our project's attached UAMI. If
-    // Foundry calls /mcp with a different principal at deploy time (e.g.,
-    // a project-level SAMI Microsoft enables for the preview MCP flow),
-    // extend this list — the deploy hook surfaces the rejected OIDs from
-    // the MCP server's 403 logs.
-    mcpTrustedPrincipalOids: uami.outputs.agentPrincipalId
+    apiKey: mcpApiKey
     appInsightsConnectionString: observability.outputs.appInsightsConnectionString
     imageRef: resolvedMcpServerImageRef
   }

@@ -14,7 +14,12 @@ param location string
 @description('Mandatory tags')
 param tags object
 
-var cosmosName = '${prefix}-${environmentName}-cosmos'
+// Cosmos account names share a GLOBAL DNS namespace (`*.documents.azure.com`),
+// so a bare `<prefix>-<env>-cosmos` will collide with someone else's account.
+// Append a deterministic per-RG suffix (same scheme keyvault.bicep uses).
+// Max length 44 chars; lowercase + digits + hyphen.
+var suffix = uniqueString(resourceGroup().id, environmentName)
+var cosmosName = take('${prefix}-${environmentName}-cosmos-${suffix}', 44)
 
 resource cosmos 'Microsoft.DocumentDB/databaseAccounts@2024-08-15' = {
   name: cosmosName
